@@ -1,3 +1,10 @@
 /* src/styles/tailwindcss.css */
 
+/* tailwindcss @v4 */
 @import "tailwindcss";
+
+/*
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+*/

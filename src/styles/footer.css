@@ -1,0 +1,15 @@
+/* src/styles/footer.css */
+
+.site-footer {
+  --footer-border-color: color-mix(in srgb, var(--footer-background) 90%, black);
+  --footer-text-color: color-mix(in srgb, color-mix(in srgb, var(--color-text) 85%, var(--footer-background)), black 15%);
+  --footer-subtext-color: var(--color-subtext);
+}
+
+@media (prefers-color-scheme: dark) {
+  .site-footer {
+    --footer-border-color: color-mix(in srgb, var(--footer-background) 85%, white);
+    --footer-text-color: color-mix(in srgb, var(--color-primary) 85%, var(--footer-background));
+    --footer-subtext-color: var(--color-subtext);
+  }
+}

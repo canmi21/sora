@@ -30,72 +30,26 @@
   }
 }
 
-.site-footer {
-  --footer-background: #dedbd2;
-  --footer-border-color: color-mix(in srgb, var(--footer-background) 90%, black);
-  --footer-text-color: color-mix(in srgb, color-mix(in srgb, var(--color-text) 85%, var(--footer-background)), black 15%);
-  --footer-subtext-color: var(--color-subtext);
+.color {
+  --blue-dark: #3A4A5A;
+  --blue-light: #D7EBFF;
+  --indigo-dark: #2A3540;
+  --indigo-light: #B0B6E0;
+  --yellow-dark: #6B5E20;
+  --yellow-light: #FFF9B3;
+  --amber-dark: #5A4B20;
+  --amber-light: #FFE380;
 }
 
 @media (prefers-color-scheme: dark) {
-  .site-footer {
-    --footer-background: #0B1724;
-    --footer-border-color: color-mix(in srgb, var(--footer-background) 85%, white);
-    --footer-text-color: color-mix(in srgb, var(--color-primary) 85%, var(--footer-background));
-    --footer-subtext-color: var(--color-subtext);
-  }
-}
-
-/* Scrollbar styles (webkit) */
-::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-
-/* The track now uses its dedicated variable */
-::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
-}
-
-/* The thumb now uses its dedicated variable */
-::-webkit-scrollbar-thumb {
-  background-color: var(--scrollbar-thumb);
-  border-radius: 8px;
-  /* The border creates a padding effect using the track color */
-  border: 2px solid var(--scrollbar-track);
-}
-
-/* The hover state also uses its dedicated variable */
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--scrollbar-thumb-hover);
-}
-
-/* Firefox scrollbar */
-* {
-  scrollbar-width: thin;
-  /* Update to use the new dedicated variables */
-  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
-}
-
-/* Selection */
-::selection {
-  background-color: #FFF9A8;
-  color: #1f2937;
-}
-
-::-moz-selection {
-  background-color: #FFF9A8;
-  color: #1f2937;
-}
-
-@media (prefers-color-scheme: dark) {
-  ::selection {
-    background-color: #3F5E5C;
-    color: #e5e7eb;
-  }
-
-  ::-moz-selection {
-    background-color: #3F5E5C;
-    color: #e5e7eb;
+  .color {
+    --blue-dark: #181828;
+    --blue-light: #B5DBFC;
+    --indigo-dark: #121F23;
+    --indigo-light: #858BC2;
+    --yellow-dark: #0B1724;
+    --yellow-light: #FEF896;
+    --amber-dark: #1F2020;
+    --amber-light: #F5D155;
   }
 }

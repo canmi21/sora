@@ -8,6 +8,10 @@
   --color-bg-alt: #ececec;
   --color-text: #161616;
   --color-subtext: #555555;
+  --color-progress: var(--color-primary);
+  --scrollbar-track: #ececec;
+  --scrollbar-thumb: #c1c1c1;
+  --scrollbar-thumb-hover: #a1a1a1;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -19,5 +23,77 @@
     --color-bg-alt: #232323;
     --color-text: #ffffff;
     --color-subtext: #a1a1a1;
+    --color-progress: var(--color-primary);
+    --scrollbar-track: #232323;
+    --scrollbar-thumb: #424242;
+    --scrollbar-thumb-hover: #555555;
+  }
+}
+
+.site-footer {
+  --footer-background: #dedbd2;
+  /* Mix the background with 10% black to get a subtly darker shade */
+  --footer-border-color: color-mix(in srgb, var(--footer-background) 90%, black);
+}
+
+@media (prefers-color-scheme: dark) {
+  .site-footer {
+    --footer-background: #0B1724;
+    /* Mix the background with 15% white to get a subtly lighter shade */
+    --footer-border-color: color-mix(in srgb, var(--footer-background) 85%, white);
+  }
+}
+
+/* Scrollbar styles (webkit) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* The track now uses its dedicated variable */
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+
+/* The thumb now uses its dedicated variable */
+::-webkit-scrollbar-thumb {
+  background-color: var(--scrollbar-thumb);
+  border-radius: 8px;
+  /* The border creates a padding effect using the track color */
+  border: 2px solid var(--scrollbar-track);
+}
+
+/* The hover state also uses its dedicated variable */
+::-webkit-scrollbar-thumb:hover {
+  background-color: var(--scrollbar-thumb-hover);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  /* Update to use the new dedicated variables */
+  scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
+}
+
+/* Selection */
+::selection {
+  background-color: #FFF9A8;
+  color: #1f2937;
+}
+
+::-moz-selection {
+  background-color: #FFF9A8;
+  color: #1f2937;
+}
+
+@media (prefers-color-scheme: dark) {
+  ::selection {
+    background-color: #3F5E5C;
+    color: #e5e7eb;
+  }
+
+  ::-moz-selection {
+    background-color: #3F5E5C;
+    color: #e5e7eb;
   }
 }

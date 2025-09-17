@@ -31,25 +31,25 @@
 }
 
 .color {
-  --blue-dark: #3A4A5A;
-  --blue-light: #D7EBFF;
-  --indigo-dark: #2A3540;
-  --indigo-light: #B0B6E0;
-  --yellow-dark: #6B5E20;
-  --yellow-light: #FFF9B3;
-  --amber-dark: #5A4B20;
-  --amber-light: #FFE380;
+  --blue-dark: #3a4a5a;
+  --blue-light: #d7ebff;
+  --indigo-dark: #2a3540;
+  --indigo-light: #b0b6e0;
+  --yellow-dark: #6b5e20;
+  --yellow-light: #fff9b3;
+  --amber-dark: #5a4b20;
+  --amber-light: #ffe380;
 }
 
 @media (prefers-color-scheme: dark) {
   .color {
     --blue-dark: #181828;
-    --blue-light: #B5DBFC;
-    --indigo-dark: #121F23;
-    --indigo-light: #858BC2;
-    --yellow-dark: #0B1724;
-    --yellow-light: #FEF896;
-    --amber-dark: #1F2020;
-    --amber-light: #F5D155;
+    --blue-light: #b5dbfc;
+    --indigo-dark: #121f23;
+    --indigo-light: #858bc2;
+    --yellow-dark: #0b1724;
+    --yellow-light: #fef896;
+    --amber-dark: #1f2020;
+    --amber-light: #f5d155;
   }
 }

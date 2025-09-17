@@ -33,23 +33,23 @@
 
 /* Selection */
 ::selection {
-  background-color: #FFF9A8;
+  background-color: #fff9a8;
   color: #1f2937;
 }
 
 ::-moz-selection {
-  background-color: #FFF9A8;
+  background-color: #fff9a8;
   color: #1f2937;
 }
 
 @media (prefers-color-scheme: dark) {
   ::selection {
-    background-color: #3F5E5C;
+    background-color: #3f5e5c;
     color: #e5e7eb;
   }
 
   ::-moz-selection {
-    background-color: #3F5E5C;
+    background-color: #3f5e5c;
     color: #e5e7eb;
   }
 }

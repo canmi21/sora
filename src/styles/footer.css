@@ -1,6 +1,7 @@
 /* src/styles/footer.css */
 
 .site-footer {
+  --footer-background: color-mix(in srgb, var(--theme-color) 20%, white);
   --footer-border-color: color-mix(
     in srgb,
     var(--footer-background) 90%,
@@ -8,10 +9,10 @@
   );
   --footer-text-color: color-mix(
     in srgb,
-    color-mix(in srgb, var(--color-text) 85%, var(--footer-background)),
-    black 15%
+    color-mix(in srgb, var(--color-primary) 75%, var(--footer-background)),
+    black
   );
-  --footer-subtext-color: var(--color-subtext);
+  --footer-subtext-color: color-mix(in srgb, var(--color-subtext) 75%, white);
   --footer-toggle-track-color: color-mix(
     in srgb,
     var(--footer-background) 95%,
@@ -21,6 +22,7 @@
 }
 
 .dark .site-footer {
+  --footer-background: color-mix(in srgb, var(--theme-color) 25%, black);
   --footer-border-color: color-mix(
     in srgb,
     var(--footer-background) 85%,
@@ -28,10 +30,10 @@
   );
   --footer-text-color: color-mix(
     in srgb,
-    var(--color-primary) 85%,
+    var(--color-primary) 75%,
     var(--footer-background)
   );
-  --footer-subtext-color: var(--color-subtext);
+  --footer-subtext-color: color-mix(in srgb, var(--color-subtext) 75%, black);
   --footer-toggle-track-color: color-mix(
     in srgb,
     var(--footer-background) 92%,

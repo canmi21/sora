@@ -6,28 +6,22 @@
   height: 8px;
 }
 
-/* The track now uses its dedicated variable */
 ::-webkit-scrollbar-track {
   background: var(--scrollbar-track);
 }
 
-/* The thumb now uses its dedicated variable */
 ::-webkit-scrollbar-thumb {
   background-color: var(--scrollbar-thumb);
   border-radius: 8px;
-  /* The border creates a padding effect using the track color */
   border: 2px solid var(--scrollbar-track);
 }
 
-/* The hover state also uses its dedicated variable */
 ::-webkit-scrollbar-thumb:hover {
   background-color: var(--scrollbar-thumb-hover);
 }
 
-/* Firefox scrollbar */
 * {
   scrollbar-width: thin;
-  /* Update to use the new dedicated variables */
   scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
 }
 
@@ -42,14 +36,12 @@
   color: #1f2937;
 }
 
-@media (prefers-color-scheme: dark) {
-  ::selection {
-    background-color: #3f5e5c;
-    color: #e5e7eb;
-  }
+.dark ::selection {
+  background-color: #3f5e5c;
+  color: #e5e7eb;
+}
 
-  ::-moz-selection {
-    background-color: #3f5e5c;
-    color: #e5e7eb;
-  }
+.dark ::-moz-selection {
+  background-color: #3f5e5c;
+  color: #e5e7eb;
 }

@@ -12,20 +12,30 @@
     black 15%
   );
   --footer-subtext-color: var(--color-subtext);
+  --footer-toggle-track-color: color-mix(
+    in srgb,
+    var(--footer-background) 95%,
+    black
+  );
+  --footer-toggle-puck-color: var(--footer-background);
 }
 
-@media (prefers-color-scheme: dark) {
-  .site-footer {
-    --footer-border-color: color-mix(
-      in srgb,
-      var(--footer-background) 85%,
-      white
-    );
-    --footer-text-color: color-mix(
-      in srgb,
-      var(--color-primary) 85%,
-      var(--footer-background)
-    );
-    --footer-subtext-color: var(--color-subtext);
-  }
+.dark .site-footer {
+  --footer-border-color: color-mix(
+    in srgb,
+    var(--footer-background) 85%,
+    white
+  );
+  --footer-text-color: color-mix(
+    in srgb,
+    var(--color-primary) 85%,
+    var(--footer-background)
+  );
+  --footer-subtext-color: var(--color-subtext);
+  --footer-toggle-track-color: color-mix(
+    in srgb,
+    var(--footer-background) 92%,
+    white
+  );
+  --footer-toggle-puck-color: var(--footer-background);
 }

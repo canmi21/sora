@@ -1,12 +1,20 @@
 /* src/components/footer/footer.tsx */
 
+import { ToggleTheme } from "../shared/toggle-theme";
+
 export default function footer() {
   const current_year = new Date().getFullYear();
 
   return (
-    <footer className="site-footer w-full border-t border-[var(--footer-border-color)] bg-[var(--footer-background)] py-6.5">
-      <div className="max-w-7xl mx-auto px-18">
-        {/* Use the new --footer-text-color for all base text in the footer */}
+    // CHANGE 1: The py-6.5 has been REMOVED from the footer.
+    // The footer is now only responsible for the background, border, etc.
+    <footer className="site-footer w-full border-t border-[var(--footer-border-color)] bg-[var(--footer-background)]">
+      {/*
+        CHANGE 2: The py-6.5 has been MOVED to this div.
+        This container now holds the padding AND is the 'relative' positioning context.
+        This is the crucial fix that makes 'bottom-*' work as expected.
+      */}
+      <div className="max-w-7xl mx-auto px-18 relative py-6.5">
         <div className="flex flex-col items-start gap-y-4 text-sm text-[var(--footer-text-color)]">
           {/* --- Group 1: About Links --- */}
           <div className="flex items-center gap-x-2.5">
@@ -17,7 +25,6 @@ export default function footer() {
             >
               Me
             </a>
-            {/* ... other links ... */}
             <a
               href="#"
               className="hover:text-[var(--footer-subtext-color)] transition-colors"
@@ -45,7 +52,6 @@ export default function footer() {
             {/* --- Row 2 --- */}
             <div className="flex flex-wrap justify-start items-center gap-x-1.5 gap-y-1">
               <span>© 2021-{current_year} Canmi.</span>
-              {/* Use the new --footer-subtext-color for pipes and hovers */}
               <span className="hidden sm:inline text-xs text-[var(--footer-subtext-color)]">
                 |
               </span>
@@ -101,6 +107,13 @@ export default function footer() {
               <span>萌ICP备202421033号</span>
             </div>
           </div>
+        </div>
+
+        <div className="absolute bottom-6 right-6">
+          <ToggleTheme
+            trackColor="var(--footer-toggle-track-color)"
+            puckColor="var(--footer-toggle-puck-color)"
+          />
         </div>
       </div>
     </footer>

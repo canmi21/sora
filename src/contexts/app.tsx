@@ -23,7 +23,7 @@ function AppLayout({ children }: { children: ReactNode }) {
   );
 }
 
-export function App_provider({ children }: { children: ReactNode }) {
+export function AppProvider({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider>
       <ColorProvider>

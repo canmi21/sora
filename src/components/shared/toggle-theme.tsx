@@ -19,10 +19,10 @@ interface ToggleThemeProps {
   puckColor?: string;
 }
 
-// Renamed to PascalCase as requested
 export function ToggleTheme({ trackColor, puckColor }: ToggleThemeProps) {
   const [is_mounted, set_is_mounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  // Get both the selected theme and the resolved theme from the hook.
+  const { theme, setTheme, resolvedTheme } = useTheme();
 
   useEffect(() => {
     set_is_mounted(true);
@@ -37,12 +37,40 @@ export function ToggleTheme({ trackColor, puckColor }: ToggleThemeProps) {
     );
   }
 
+  // This is the new, more intelligent handler.
+  const handle_theme_change = (new_theme: string) => {
+    // 1. Predict what the next visual theme will be.
+    // If 'system' is chosen, we check the OS preference to find the resolved theme.
+    const next_resolved_theme =
+      new_theme === "system"
+        ? window.matchMedia("(prefers-color-scheme: dark)").matches
+          ? "dark"
+          : "light"
+        : new_theme;
+
+    // 2. Compare the current visual theme with the next one.
+    // If they are the same, skip the full-page animation.
+    if (next_resolved_theme === resolvedTheme) {
+      setTheme(new_theme);
+      return;
+    }
+
+    // 3. If they are different, trigger the view transition.
+    if (!document.startViewTransition) {
+      setTheme(new_theme); // Fallback for older browsers
+    } else {
+      document.startViewTransition(() => {
+        setTheme(new_theme);
+      });
+    }
+  };
+
   return (
     <ToggleGroup.Root
       type="single"
       value={theme}
       onValueChange={(new_theme) => {
-        if (new_theme) setTheme(new_theme);
+        if (new_theme) handle_theme_change(new_theme);
       }}
       className="relative flex h-9 items-center rounded-full p-1"
       aria-label="Theme toggle"

@@ -3,10 +3,10 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { Color_provider, use_color_context } from "./color";
-import { Theme_provider } from "./theme";
+import { ColorProvider, use_color_context } from "./color";
+import { ThemeProvider } from "./theme";
 
-function App_layout({ children }: { children: ReactNode }) {
+function AppLayout({ children }: { children: ReactNode }) {
   const { theme_color } = use_color_context();
 
   return (
@@ -14,7 +14,7 @@ function App_layout({ children }: { children: ReactNode }) {
       className="color"
       style={
         {
-          "--footer-background": `var(--${theme_color}-dark)`,
+          "--theme-color": `var(--theme-color-${theme_color})`,
         } as React.CSSProperties
       }
     >
@@ -25,10 +25,10 @@ function App_layout({ children }: { children: ReactNode }) {
 
 export function App_provider({ children }: { children: ReactNode }) {
   return (
-    <Theme_provider>
-      <Color_provider>
-        <App_layout>{children}</App_layout>
-      </Color_provider>
-    </Theme_provider>
+    <ThemeProvider>
+      <ColorProvider>
+        <AppLayout>{children}</AppLayout>
+      </ColorProvider>
+    </ThemeProvider>
   );
 }

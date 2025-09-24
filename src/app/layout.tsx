@@ -12,7 +12,7 @@ import { cookies } from "next/headers";
 export const metadata = site;
 export const viewport = site_viewport;
 
-export default async function root_layout({
+export default async function RootLayout({
   children,
 }: {
   children: ReactNode;

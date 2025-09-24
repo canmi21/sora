@@ -1,0 +1,24 @@
+/* src/styles/navbar.css */
+
+.navbar {
+  --navbar-background: color-mix(in srgb, var(--color-bg-alt) 80%, transparent);
+  --navbar-border-color: color-mix(in srgb, var(--color-bg-alt) 90%, black);
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 15;
+  background: var(--navbar-background);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--navbar-border-color);
+  /* fallback */
+  @supports not (backdrop-filter: blur(12px)) {
+    background: var(--color-bg-alt);
+  }
+}
+
+.dark .navbar {
+  --navbar-border-color: color-mix(in srgb, var(--color-bg-alt) 85%, white);
+}

@@ -8,7 +8,7 @@ export default function home() {
       <FireFly maxDots={30} />
       <div className="flex-grow flex items-center justify-center relative z-10">
         <h1 className="text-4xl font-semibold text-[var(--color-text)]">
-          Hello World
+          Empty
         </h1>
       </div>
     </>

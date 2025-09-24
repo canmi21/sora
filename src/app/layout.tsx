@@ -4,6 +4,7 @@ import "~/styles/tailwindcss.css";
 import "~/styles/transitions.css";
 import "~/styles/colors.css";
 import "~/styles/element.css";
+import "~/styles/essential.css";
 import type { ReactNode } from "react";
 import { site, site_viewport } from "~/metadata/meta";
 import { AppProvider } from "~/contexts/app";

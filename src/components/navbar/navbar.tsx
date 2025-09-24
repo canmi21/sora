@@ -8,7 +8,7 @@ export default function Navbar() {
     <nav className="navbar w-full h-15 flex items-center justify-between px-8">
       <div className="flex items-center">
         <h1 className="text-2xl font-bold text-[var(--color-text)]">
-          月かげ空
+          觉授の貓窝
         </h1>
       </div>
       <div className="flex items-center space-x-6">

@@ -4,18 +4,20 @@ import type { ReactNode } from "react";
 
 /**
  * A pure Server Component that renders the static parts of the footer layout.
- * Accepts a 'dynamicContent' prop to slot in dynamic elements.
+ * It accepts props to slot in dynamic elements for multiple sections.
  */
 export function FooterNavigation({
   dynamicContent,
+  icpContent, // The new prop for the ICP section
 }: {
   dynamicContent: ReactNode;
+  icpContent: ReactNode; // Define its type
 }) {
   const current_year = new Date().getFullYear();
 
   return (
     <div className="flex flex-col items-start gap-y-4 text-sm text-[var(--footer-text-color)]">
-      {/* --- Group 1: About Links --- */}
+      {/* --- Group 1: About Links (remains unchanged) --- */}
       <div className="flex items-center gap-x-2.5">
         <span>About &gt;</span>
         <a
@@ -48,7 +50,7 @@ export function FooterNavigation({
 
       {/* --- Group 2: Site Status, Copyright, and Legal --- */}
       <div className="flex flex-col items-start gap-y-2">
-        {/* --- Row 2 --- */}
+        {/* --- Row 2 (remains unchanged) --- */}
         <div className="flex flex-wrap justify-start items-center gap-x-1.5 gap-y-1">
           <span>© 2021-{current_year} Canmi.</span>
           <span className="hidden sm:inline text-xs text-[var(--footer-subtext-color)]">
@@ -81,20 +83,11 @@ export function FooterNavigation({
           {dynamicContent}
         </div>
 
-        {/* --- Row 3 --- */}
+        {/* --- Row 3 (MODIFIED) --- */}
         <div className="flex flex-wrap justify-start items-center gap-x-1.5">
           <span>Powered by Sora & Cloudfaro.</span>
-          <span className="text-xs text-[var(--footer-subtext-color)]">|</span>
-          <a
-            href="https://beian.miit.gov.cn/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-[var(--footer-subtext-color)] transition-colors"
-          >
-            沪ICP备2025141863号
-          </a>
-          <span className="text-xs text-[var(--footer-subtext-color)]">|</span>
-          <span>萌ICP备202421033号</span>
+          {/* We render the dynamic ICP content passed in via the new prop. */}
+          {icpContent}
         </div>
       </div>
     </div>

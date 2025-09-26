@@ -10,9 +10,9 @@ import type { ClientApiResponse, ClientApiErrorResponse } from "./request";
  * Corresponds to the response from `get_handler`.
  */
 export interface GetValueResponse {
-  key: string;
-  value: any; // Can be a string, number, boolean, object, or array.
-  type: "json" | "string" | "base64";
+	key: string;
+	value: any; // Can be a string, number, boolean, object, or array.
+	type: "json" | "string" | "base64";
 }
 
 /**
@@ -20,8 +20,8 @@ export interface GetValueResponse {
  * Corresponds to the responses from `create_handler`, `update_handler`, and `delete_handler`.
  */
 export interface ModifyValueResponse {
-  status: "created" | "updated" | "deleted";
-  key: string;
+	status: "created" | "updated" | "deleted";
+	key: string;
 }
 
 // --- Helper Function ---
@@ -33,7 +33,7 @@ export interface ModifyValueResponse {
  * @returns A URL path segment.
  */
 function keyToPath(key: string): string {
-  return key.replace(/\./g, "/");
+	return key.replace(/\./g, "/");
 }
 
 // --- API Functions ---
@@ -47,41 +47,41 @@ function keyToPath(key: string): string {
  * @returns A promise that resolves to a ClientApiResponse containing the value's data.
  */
 export async function getValue(
-  key: string
+	key: string
 ): Promise<ClientApiResponse<GetValueResponse>> {
-  const path = keyToPath(key);
-  const response = await get<GetValueResponse>(`/v1/config/${path}`);
+	const path = keyToPath(key);
+	const response = await get<GetValueResponse>(`/v1/config/${path}`);
 
-  // If the request was successful and the data was sent as base64, decode it.
-  if (response.success && response.data.type === "base64") {
-    try {
-      // Decode the base64 string. The atob() function is globally available
-      // in modern browsers and Node.js/Next.js environments.
-      const decodedValue = atob(response.data.value);
+	// If the request was successful and the data was sent as base64, decode it.
+	if (response.success && response.data.type === "base64") {
+		try {
+			// Decode the base64 string. The atob() function is globally available
+			// in modern browsers and Node.js/Next.js environments.
+			const decodedValue = atob(response.data.value);
 
-      // Return a new response object with the decoded value.
-      // We modify the 'type' to 'string' to reflect that the value is no longer encoded.
-      return {
-        ...response,
-        data: {
-          ...response.data,
-          value: decodedValue,
-          type: "string", // The data is now a decoded string.
-        },
-      };
-    } catch (e) {
-      console.error(`Failed to decode base64 value for key "${key}":`, e);
-      // If decoding fails, return a structured error response.
-      return {
-        success: false,
-        httpStatus: 500, // Represents an "Internal Client Error"
-        message: `Failed to decode a malformed base64 value received from the server for key "${key}".`,
-      } as ClientApiErrorResponse;
-    }
-  }
+			// Return a new response object with the decoded value.
+			// We modify the 'type' to 'string' to reflect that the value is no longer encoded.
+			return {
+				...response,
+				data: {
+					...response.data,
+					value: decodedValue,
+					type: "string", // The data is now a decoded string.
+				},
+			};
+		} catch (e) {
+			console.error(`Failed to decode base64 value for key "${key}":`, e);
+			// If decoding fails, return a structured error response.
+			return {
+				success: false,
+				httpStatus: 500, // Represents an "Internal Client Error"
+				message: `Failed to decode a malformed base64 value received from the server for key "${key}".`,
+			} as ClientApiErrorResponse;
+		}
+	}
 
-  // If the response was not successful or not base64, return it as-is.
-  return response;
+	// If the response was not successful or not base64, return it as-is.
+	return response;
 }
 
 /**
@@ -93,11 +93,11 @@ export async function getValue(
  * @returns A promise that resolves to a ClientApiResponse confirming the creation.
  */
 export function createValue(
-  key: string,
-  value: any
+	key: string,
+	value: any
 ): Promise<ClientApiResponse<ModifyValueResponse>> {
-  const path = keyToPath(key);
-  return post<ModifyValueResponse>(`/v1/config/${path}`, value);
+	const path = keyToPath(key);
+	return post<ModifyValueResponse>(`/v1/config/${path}`, value);
 }
 
 /**
@@ -109,11 +109,11 @@ export function createValue(
  * @returns A promise that resolves to a ClientApiResponse confirming the update.
  */
 export function updateValue(
-  key: string,
-  value: any
+	key: string,
+	value: any
 ): Promise<ClientApiResponse<ModifyValueResponse>> {
-  const path = keyToPath(key);
-  return put<ModifyValueResponse>(`/v1/config/${path}`, value);
+	const path = keyToPath(key);
+	return put<ModifyValueResponse>(`/v1/config/${path}`, value);
 }
 
 /**
@@ -124,8 +124,8 @@ export function updateValue(
  * @returns A promise that resolves to a ClientApiResponse confirming the deletion.
  */
 export function deleteValue(
-  key: string
+	key: string
 ): Promise<ClientApiResponse<ModifyValueResponse>> {
-  const path = keyToPath(key);
-  return deleteRequest<ModifyValueResponse>(`/v1/config/${path}`);
+	const path = keyToPath(key);
+	return deleteRequest<ModifyValueResponse>(`/v1/config/${path}`);
 }

@@ -14,23 +14,23 @@ export const metadata = site;
 export const viewport = site_viewport;
 
 export default async function RootLayout({
-  children,
+	children,
 }: {
-  children: ReactNode;
+	children: ReactNode;
 }) {
-  const theme_cookie = (await cookies()).get("@sora/theme");
-  const theme = theme_cookie?.value || "system";
+	const theme_cookie = (await cookies()).get("@sora/theme");
+	const theme = theme_cookie?.value || "system";
 
-  return (
-    <html
-      lang="en"
-      className={theme === "dark" ? "dark" : ""}
-      suppressHydrationWarning
-    >
-      <head />
-      <body className="bg-[var(--color-bg)] text-[var(--color-text)]">
-        <AppProvider>{children}</AppProvider>
-      </body>
-    </html>
-  );
+	return (
+		<html
+			lang="en"
+			className={theme === "dark" ? "dark" : ""}
+			suppressHydrationWarning
+		>
+			<head />
+			<body className="bg-[var(--color-bg)] text-[var(--color-text)]">
+				<AppProvider>{children}</AppProvider>
+			</body>
+		</html>
+	);
 }

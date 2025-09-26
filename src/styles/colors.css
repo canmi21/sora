@@ -1,45 +1,45 @@
 /* src/styles/colors.css */
 
 :root {
-  --color-primary: #161616;
-  --color-secondary: #232323;
-  --color-tertiary: #3a3a3a;
-  --color-bg: #ffffff;
-  --color-bg-alt: #ececec;
-  --color-text: #161616;
-  --color-subtext: #555555;
-  --color-progress: var(--color-primary);
-  --scrollbar-track: #ececec;
-  --scrollbar-thumb: #c1c1c1;
-  --scrollbar-thumb-hover: #a1a1a1;
+	--color-primary: #161616;
+	--color-secondary: #232323;
+	--color-tertiary: #3a3a3a;
+	--color-bg: #ffffff;
+	--color-bg-alt: #ececec;
+	--color-text: #161616;
+	--color-subtext: #555555;
+	--color-progress: var(--color-primary);
+	--scrollbar-track: #ececec;
+	--scrollbar-thumb: #c1c1c1;
+	--scrollbar-thumb-hover: #a1a1a1;
 }
 
 .dark:root {
-  --color-primary: #ececec;
-  --color-secondary: #ffffff;
-  --color-tertiary: #cfcfcf;
-  --color-bg: #161616;
-  --color-bg-alt: #232323;
-  --color-text: #ffffff;
-  --color-subtext: #a1a1a1;
-  --color-progress: var(--color-primary);
-  --scrollbar-track: #232323;
-  --scrollbar-thumb: #424242;
-  --scrollbar-thumb-hover: #555555;
+	--color-primary: #ececec;
+	--color-secondary: #ffffff;
+	--color-tertiary: #cfcfcf;
+	--color-bg: #161616;
+	--color-bg-alt: #232323;
+	--color-text: #ffffff;
+	--color-subtext: #a1a1a1;
+	--color-progress: var(--color-primary);
+	--scrollbar-track: #232323;
+	--scrollbar-thumb: #424242;
+	--scrollbar-thumb-hover: #555555;
 }
 
 .color {
-  --theme-color-sky: #d7ebff;
-  --theme-color-mint: #b0e0d6;
-  --theme-color-lavender: #858bc2;
-  --theme-color-blush: #e89bab;
-  --theme-color-lemon: #f5d155;
+	--theme-color-sky: #d7ebff;
+	--theme-color-mint: #b0e0d6;
+	--theme-color-lavender: #858bc2;
+	--theme-color-blush: #e89bab;
+	--theme-color-lemon: #f5d155;
 }
 
 .dark .color {
-  --theme-color-sky: #3a4a5a;
-  --theme-color-mint: #2e4d46;
-  --theme-color-lavender: #3f4469;
-  --theme-color-blush: #6a3d48;
-  --theme-color-lemon: #6b5e20;
+	--theme-color-sky: #3a4a5a;
+	--theme-color-mint: #2e4d46;
+	--theme-color-lavender: #3f4469;
+	--theme-color-blush: #6a3d48;
+	--theme-color-lemon: #6b5e20;
 }

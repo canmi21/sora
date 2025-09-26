@@ -21,15 +21,15 @@ const ValueContext = createContext<ValueContextType | undefined>(undefined);
  * and makes it available to child components through context.
  */
 export function ValueClientProvider({
-  children,
-  value,
+	children,
+	value,
 }: {
-  children: ReactNode;
-  value: ValueContextType;
+	children: ReactNode;
+	value: ValueContextType;
 }) {
-  return (
-    <ValueContext.Provider value={value}>{children}</ValueContext.Provider>
-  );
+	return (
+		<ValueContext.Provider value={value}>{children}</ValueContext.Provider>
+	);
 }
 
 /**
@@ -37,11 +37,11 @@ export function ValueClientProvider({
  * This is the primary way client components will consume the data.
  */
 export function useValueContext() {
-  const context = useContext(ValueContext);
-  if (context === undefined) {
-    // This error helps catch cases where a component tries to use the context
-    // outside of a rendered provider.
-    throw new Error("useValueContext must be used within a ValueProvider");
-  }
-  return context;
+	const context = useContext(ValueContext);
+	if (context === undefined) {
+		// This error helps catch cases where a component tries to use the context
+		// outside of a rendered provider.
+		throw new Error("useValueContext must be used within a ValueProvider");
+	}
+	return context;
 }

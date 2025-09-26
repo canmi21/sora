@@ -9,14 +9,14 @@ import type { ReactNode } from "react";
 // `next-themes` automatically handles cookie synchronization alongside localStorage
 // when it runs on the client, which is what allows the server to pick it up on the next request.
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  return (
-    <NextThemesProvider
-      attribute="class"
-      storageKey="@sora/theme"
-      defaultTheme="system"
-      enableSystem
-    >
-      {children}
-    </NextThemesProvider>
-  );
+	return (
+		<NextThemesProvider
+			attribute="class"
+			storageKey="@sora/theme"
+			defaultTheme="system"
+			enableSystem
+		>
+			{children}
+		</NextThemesProvider>
+	);
 }

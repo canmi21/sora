@@ -11,7 +11,9 @@ import { ToggleTheme } from "../shared/toggle-theme";
  */
 export function FooterDynamicContent() {
   const values = useValueContext();
-  const ownerQuote = (values.get("owner.quote") as string) || "The server is busy dreaming of code.";
+  const ownerQuote =
+    (values.get("owner.quote") as string) ||
+    "The server is busy dreaming of code.";
 
   return (
     <>

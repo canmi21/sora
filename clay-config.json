@@ -1,12 +1,12 @@
 {
-  "scripts": {
-    "remove": "pnpm remove",
-    "add": "pnpm add",
-    "dev": "pnpm dev",
-    "build": "pnpm build",
-    "lint": "pnpm lint",
-    "install": "pnpm build",
-    "clean": "pnpm clean",
-    "publish": "pnpm dev"
-  }
+	"scripts": {
+		"remove": "pnpm remove",
+		"add": "pnpm add",
+		"dev": "pnpm dev",
+		"build": "pnpm build",
+		"lint": "pnpm lint",
+		"install": "pnpm build",
+		"clean": "pnpm clean",
+		"publish": "pnpm dev"
+	}
 }

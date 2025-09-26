@@ -2,7 +2,7 @@
 	"scripts": {
 		"remove": "pnpm remove",
 		"add": "pnpm add",
-		"dev": "pnpm dev",
+		"dev": "pnpm dev --port 80",
 		"build": "pnpm build",
 		"lint": "pnpm lint",
 		"install": "pnpm build",

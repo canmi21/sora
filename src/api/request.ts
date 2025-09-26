@@ -13,16 +13,16 @@ const BASE_URL = process.env.NEXT_PUBLIC_API || "https://api.canmi.net";
  * Describes the structure of a successful response.
  */
 interface BackendSuccessResponse<T> {
-  status: "success";
-  data: T;
+	status: "success";
+	data: T;
 }
 
 /**
  * Describes the structure of an error response.
  */
 interface BackendErrorResponse {
-  status: "error";
-  message: string;
+	status: "error";
+	message: string;
 }
 
 /**
@@ -37,18 +37,18 @@ type BackendResponse<T> = BackendSuccessResponse<T> | BackendErrorResponse;
  * It's easier to check `success: true` than to check for status codes.
  */
 export interface ClientApiSuccessResponse<T> {
-  success: true;
-  httpStatus: number;
-  data: T;
+	success: true;
+	httpStatus: number;
+	data: T;
 }
 
 /**
  * The shape of a failed response returned by our request functions.
  */
 export interface ClientApiErrorResponse {
-  success: false;
-  httpStatus: number;
-  message: string;
+	success: false;
+	httpStatus: number;
+	message: string;
 }
 
 /**
@@ -56,8 +56,8 @@ export interface ClientApiErrorResponse {
  * This allows for easy handling with a simple `if (response.success)` check.
  */
 export type ClientApiResponse<T = any> =
-  | ClientApiSuccessResponse<T>
-  | ClientApiErrorResponse;
+	| ClientApiSuccessResponse<T>
+	| ClientApiErrorResponse;
 
 /**
  * A generic request function that handles fetch operations, timeouts,
@@ -68,59 +68,59 @@ export type ClientApiResponse<T = any> =
  * @returns A promise that resolves to a ClientApiResponse object.
  */
 async function request<T>(
-  path: string,
-  options: RequestInit = {}
+	path: string,
+	options: RequestInit = {}
 ): Promise<ClientApiResponse<T>> {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
+	const controller = new AbortController();
+	const timeoutId = setTimeout(() => controller.abort(), 10000); // 10s timeout
 
-  try {
-    const response = await fetch(`${BASE_URL}${path}`, {
-      ...options,
-      signal: controller.signal,
-      headers: {
-        "Content-Type": "application/json",
-        ...options.headers,
-      },
-    });
+	try {
+		const response = await fetch(`${BASE_URL}${path}`, {
+			...options,
+			signal: controller.signal,
+			headers: {
+				"Content-Type": "application/json",
+				...options.headers,
+			},
+		});
 
-    clearTimeout(timeoutId);
+		clearTimeout(timeoutId);
 
-    const backendResponse = (await response.json()) as BackendResponse<T>;
+		const backendResponse = (await response.json()) as BackendResponse<T>;
 
-    if (backendResponse.status === "success") {
-      return {
-        success: true,
-        httpStatus: response.status,
-        data: backendResponse.data,
-      };
-    } else {
-      // This handles cases where status is 'error' or the format is unexpected.
-      return {
-        success: false,
-        httpStatus: response.status,
-        message: backendResponse.message || "An unknown error occurred.",
-      };
-    }
-  } catch (error) {
-    clearTimeout(timeoutId); // Ensure timeout is cleared on other errors too
+		if (backendResponse.status === "success") {
+			return {
+				success: true,
+				httpStatus: response.status,
+				data: backendResponse.data,
+			};
+		} else {
+			// This handles cases where status is 'error' or the format is unexpected.
+			return {
+				success: false,
+				httpStatus: response.status,
+				message: backendResponse.message || "An unknown error occurred.",
+			};
+		}
+	} catch (error) {
+		clearTimeout(timeoutId); // Ensure timeout is cleared on other errors too
 
-    if (error instanceof Error && error.name === "AbortError") {
-      return {
-        success: false,
-        httpStatus: 408, // Request Timeout
-        message: "Request timed out after 10 seconds.",
-      };
-    }
+		if (error instanceof Error && error.name === "AbortError") {
+			return {
+				success: false,
+				httpStatus: 408, // Request Timeout
+				message: "Request timed out after 10 seconds.",
+			};
+		}
 
-    // Handle other errors like network failure, or if response.json() fails
-    return {
-      success: false,
-      httpStatus: 0, // Indicates a client-side or network error
-      message:
-        error instanceof Error ? error.message : "A network error occurred.",
-    };
-  }
+		// Handle other errors like network failure, or if response.json() fails
+		return {
+			success: false,
+			httpStatus: 0, // Indicates a client-side or network error
+			message:
+				error instanceof Error ? error.message : "A network error occurred.",
+		};
+	}
 }
 
 /**
@@ -129,7 +129,7 @@ async function request<T>(
  * @returns A promise that resolves to a ClientApiResponse object.
  */
 export function get<T>(path: string): Promise<ClientApiResponse<T>> {
-  return request<T>(path, { method: "GET" });
+	return request<T>(path, { method: "GET" });
 }
 
 /**
@@ -139,13 +139,13 @@ export function get<T>(path: string): Promise<ClientApiResponse<T>> {
  * @returns A promise that resolves to a ClientApiResponse object.
  */
 export function post<T>(
-  path: string,
-  json?: any
+	path: string,
+	json?: any
 ): Promise<ClientApiResponse<T>> {
-  return request<T>(path, {
-    method: "POST",
-    body: JSON.stringify(json),
-  });
+	return request<T>(path, {
+		method: "POST",
+		body: JSON.stringify(json),
+	});
 }
 
 /**
@@ -155,13 +155,13 @@ export function post<T>(
  * @returns A promise that resolves to a ClientApiResponse object.
  */
 export function put<T>(
-  path: string,
-  json?: any
+	path: string,
+	json?: any
 ): Promise<ClientApiResponse<T>> {
-  return request<T>(path, {
-    method: "PUT",
-    body: JSON.stringify(json),
-  });
+	return request<T>(path, {
+		method: "PUT",
+		body: JSON.stringify(json),
+	});
 }
 
 /**
@@ -170,9 +170,9 @@ export function put<T>(
  * @returns A promise that resolves to a ClientApiResponse object.
  */
 export function del<T>(path: string): Promise<ClientApiResponse<T>> {
-  return request<T>(path, {
-    method: "DELETE",
-  });
+	return request<T>(path, {
+		method: "DELETE",
+	});
 }
 
 // Exporting 'delete' as 'del' because 'delete' is a reserved keyword.

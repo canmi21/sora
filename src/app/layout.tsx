@@ -6,11 +6,14 @@ import "~/styles/colors.css";
 import "~/styles/element.css";
 import "~/styles/essential.css";
 import type { ReactNode } from "react";
-import { site, site_viewport } from "~/metadata/meta";
+import { generateSiteMetadata, site_viewport } from "~/metadata/meta";
 import { AppProvider } from "~/contexts/app";
 import { cookies } from "next/headers";
 
-export const metadata = site;
+export async function generateMetadata() {
+	return generateSiteMetadata();
+}
+
 export const viewport = site_viewport;
 
 export default async function RootLayout({

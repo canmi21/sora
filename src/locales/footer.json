@@ -1,17 +1,17 @@
 {
 	"button": {
 		"sitemap": {
-			"raw": "Site Structure",
+			"raw": "Sitemap",
 			"en_US": "Sitemap",
 			"en_GB": "Site Map",
-			"zh_CN": "网站地图",
+			"zh_CN": "站点地图",
 			"zh_HK": "網站地圖",
 			"es_ES": "Mapa del sitio",
 			"fr_FR": "Plan du site",
 			"ja_JP": "サイトマップ"
 		},
 		"subscribe": {
-			"raw": "Get Updates",
+			"raw": "Subscribe",
 			"en_US": "Subscribe",
 			"en_GB": "Subscribe",
 			"zh_CN": "订阅",

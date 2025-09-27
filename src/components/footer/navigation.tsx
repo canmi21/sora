@@ -1,7 +1,8 @@
 /* src/components/footer/navigation.tsx */
 
 import type { ReactNode } from "react";
-import { Rss, Map, Send } from "lucide-react";
+// Heart icon is already imported
+import { Rss, Map, Send, Heart } from "lucide-react";
 
 /**
  * A pure Server Component that renders the static parts of the footer layout.
@@ -61,9 +62,29 @@ export function FooterNavigation({
 					{dynamicContent}
 				</div>
 
-				{/* --- Row 3 --- */}
+				{/* --- Row 3 (MODIFIED) --- */}
 				<div className="flex flex-wrap justify-start items-center gap-x-1.5">
-					<span>Powered by Sora & Shadow.</span>
+					<span className="inline-flex items-center gap-x-1">
+						Powered by{" "}
+						<a
+							href="https://github.com/canmi21/sora"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="hover:text-[var(--footer-subtext-color)] transition-colors"
+						>
+							Sora
+						</a>
+						<Heart className="w-3 h-3" />
+						<a
+							href="https://github.com/canmi21/shadow"
+							target="_blank"
+							rel="noopener noreferrer"
+							className="hover:text-[var(--footer-subtext-color)] transition-colors"
+						>
+							Shadow
+						</a>
+						.
+					</span>
 					{icpContent}
 				</div>
 			</div>

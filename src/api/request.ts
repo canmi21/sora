@@ -85,7 +85,6 @@ async function request<T>(
 		});
 
 		clearTimeout(timeoutId);
-
 		const backendResponse = (await response.json()) as BackendResponse<T>;
 
 		if (backendResponse.status === "success") {

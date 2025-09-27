@@ -3,49 +3,59 @@
 "use client";
 
 import { useValueContext } from "~/contexts/value-client";
+import { useTranslation } from "~/providers/i18n-client";
 import { ChevronRight } from "lucide-react";
 import Link from "next/link";
+import { useEffect } from "react";
 
 /**
  * A Client Component that renders the main group of footer links.
- * It fetches the link URLs dynamically from the ValueContext.
+ * It fetches link URLs dynamically from the ValueContext and
+ * link text from the i18n context.
  */
 export function LinkGroup() {
 	const values = useValueContext();
+	const { tSync, t } = useTranslation();
 
-	// Helper function to safely get a URL from the context
+	// Preload footer translations on component mount
+	useEffect(() => {
+		// Preload the footer namespace by calling t() once
+		t("footer.link.about");
+	}, [t]);
+
+	// These helpers will now work correctly on the `values` Map.
 	const getLink = (key: string) => (values.get(key) as string) || "#";
 	const getMailLink = (key: string) => `mailto:${values.get(key) as string}`;
 
 	return (
 		<div className="flex items-center gap-x-2.5">
 			<span className="font-bold inline-flex items-center gap-x-1">
-				About
+				{tSync("footer.link.about")}
 				<ChevronRight className="w-4 h-4" />
 			</span>
 			<Link
 				href={getLink("site.link.me")}
 				className="hover:text-[var(--footer-subtext-color)] transition-colors"
 			>
-				Me
+				{tSync("footer.link.me")}
 			</Link>
 			<Link
 				href={getLink("site.link.site")}
 				className="hover:text-[var(--footer-subtext-color)] transition-colors"
 			>
-				The Site
+				{tSync("footer.link.site")}
 			</Link>
 			<Link
 				href={getLink("site.link.project")}
 				className="hover:text-[var(--footer-subtext-color)] transition-colors"
-				target="_blank" // Open external links in a new tab
+				target="_blank"
 				rel="noopener noreferrer"
 			>
-				The Project
+				{tSync("footer.link.project")}
 			</Link>
 
-			<span className="font-bold inline-flex items-center gap-x-1">
-				More
+			<span className="font-bold inline-flex items-center gap-x-1 ml-2.5">
+				{tSync("footer.link.more")}
 				<ChevronRight className="w-4 h-4" />
 			</span>
 			<Link
@@ -54,7 +64,7 @@ export function LinkGroup() {
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				Repos
+				{tSync("footer.link.repos")}
 			</Link>
 			<Link
 				href={getLink("site.link.opensource")}
@@ -62,7 +72,7 @@ export function LinkGroup() {
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				OpenSource
+				{tSync("footer.link.opensource")}
 			</Link>
 			<Link
 				href={getLink("site.link.sponsor")}
@@ -70,11 +80,11 @@ export function LinkGroup() {
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				Sponsor
+				{tSync("footer.link.sponsor")}
 			</Link>
 
-			<span className="font-bold inline-flex items-center gap-x-1">
-				Contact
+			<span className="font-bold inline-flex items-center gap-x-1 ml-2.5">
+				{tSync("footer.link.contact")}
 				<ChevronRight className="w-4 h-4" />
 			</span>
 			<Link
@@ -83,13 +93,13 @@ export function LinkGroup() {
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				Github
+				{tSync("footer.link.github")}
 			</Link>
 			<a
 				href={getMailLink("site.link.email")}
 				className="hover:text-[var(--footer-subtext-color)] transition-colors"
 			>
-				Email
+				{tSync("footer.link.email")}
 			</a>
 			<Link
 				href={getLink("site.link.status")}
@@ -97,7 +107,7 @@ export function LinkGroup() {
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				Status
+				{tSync("footer.link.status")}
 			</Link>
 		</div>
 	);

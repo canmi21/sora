@@ -1,37 +1,36 @@
 /* src/providers/i18n-local.ts */
 
 import { SupportedLocale, SUPPORTED_LOCALES, DEFAULT_LOCALE } from "./i18n";
+import { getItemWithDefault, setItem } from "~/lib/localstorage";
 
-const LOCAL_STORAGE_KEY = "@sora/locale";
+export const LOCAL_STORAGE_KEY = "@sora/locale";
 
 /**
- * Gets the preferred locale from localStorage.
+ * Gets the preferred locale from localStorage using the generic helper.
  * Returns null if no valid locale is found.
  */
 function getLocaleFromStorage(): SupportedLocale | null {
-	try {
-		const storedLocale = window.localStorage.getItem(
-			LOCAL_STORAGE_KEY
-		) as SupportedLocale;
-		if (storedLocale && SUPPORTED_LOCALES.includes(storedLocale)) {
-			return storedLocale;
-		}
-		return null;
-	} catch (error) {
-		console.error("Error reading locale from localStorage:", error);
-		return null;
+	// Use the generic `getItemWithDefault`. It safely handles SSR and parsing.
+	// We provide `null` as the default, so if nothing is stored, we get null back.
+	const storedLocale = getItemWithDefault<SupportedLocale | null>(
+		LOCAL_STORAGE_KEY,
+		null
+	);
+
+	// Perform the i18n-specific validation.
+	if (storedLocale && SUPPORTED_LOCALES.includes(storedLocale)) {
+		return storedLocale;
 	}
+
+	return null;
 }
 
 /**
- * Sets the preferred locale in localStorage.
+ * Sets the preferred locale in localStorage using the generic helper.
  */
-function setLocaleInStorage(locale: SupportedLocale): void {
-	try {
-		window.localStorage.setItem(LOCAL_STORAGE_KEY, locale);
-	} catch (error) {
-		console.error("Error setting locale in localStorage:", error);
-	}
+export function setLocaleInStorage(locale: SupportedLocale): void {
+	// Use the generic `setItem`. It safely handles SSR and JSON stringifying.
+	setItem(LOCAL_STORAGE_KEY, locale);
 }
 
 /**
@@ -44,12 +43,10 @@ function detectInitialBrowserLocale(): SupportedLocale {
 	try {
 		const browserLang = navigator.language.replace("_", "-");
 
-		// Check for an exact match (e.g., 'en-US' === 'en-US')
 		if (SUPPORTED_LOCALES.includes(browserLang as SupportedLocale)) {
 			return browserLang as SupportedLocale;
 		}
 
-		// Check for a partial match (e.g., 'en' matches 'en-US')
 		const partialMatch = SUPPORTED_LOCALES.find((supported) =>
 			supported.startsWith(browserLang.split("-")[0])
 		);
@@ -70,16 +67,16 @@ function detectInitialBrowserLocale(): SupportedLocale {
  * It then syncs this value to a cookie to keep the server informed.
  */
 export function initializeAndSyncLocale(): SupportedLocale {
+	// This high-level orchestration logic remains the same,
+	// but it now calls the refactored, safer functions.
 	let currentLocale = getLocaleFromStorage();
 
-	// If it's a user's first visit (no locale in storage), detect from browser.
 	if (!currentLocale) {
 		currentLocale = detectInitialBrowserLocale();
 		setLocaleInStorage(currentLocale);
 	}
 
-	// Always ensure the cookie is up-to-date with the localStorage value and refresh its expiry.
-	document.cookie = `locale=${currentLocale}; path=/; max-age=31536000; SameSite=Strict`; // 1 year
+	document.cookie = `locale=${currentLocale}; path=/; max-age=31536000; SameSite=Strict`;
 
 	return currentLocale;
 }

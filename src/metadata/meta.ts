@@ -1,10 +1,9 @@
 /* src/metadata/meta.ts */
 
 import type { Metadata, Viewport } from "next";
+import { getRawValue } from "~/api/server";
 
-export const site: Metadata = {
-	title: "月かげ空 - 致虚无 心を守",
-	description: "致虚无，心を守。",
+const STATIC_METADATA = {
 	icons: {
 		icon: [
 			{ url: "/favicon.ico", sizes: "any" },
@@ -16,6 +15,19 @@ export const site: Metadata = {
 	manifest: "/site.webmanifest",
 	// OG later
 };
+
+export async function generateSiteMetadata(): Promise<Metadata> {
+	const [title, description] = await Promise.all([
+		getRawValue<string>("site.title", "此站点迷路了！"),
+		getRawValue<string>("site.description", "致虚无，心を守。"),
+	]);
+
+	return {
+		...STATIC_METADATA,
+		title: `${title} - ${description}`,
+		description: description,
+	};
+}
 
 export const site_viewport: Viewport = {
 	themeColor: [

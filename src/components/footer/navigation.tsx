@@ -1,14 +1,14 @@
 /* src/components/footer/navigation.tsx */
 
 import type { ReactNode } from "react";
-// Heart icon is already imported
 import { Rss, Map, Send, Heart } from "lucide-react";
+import { createServerTranslator } from "~/providers/i18n-server";
 
 /**
  * A pure Server Component that renders the static parts of the footer layout.
- * It accepts props to slot in all dynamic elements.
+ * It now fetches its own translations for static text.
  */
-export function FooterNavigation({
+export async function FooterNavigation({
 	linkGroupContent,
 	copyrightContent,
 	dynamicContent,
@@ -19,6 +19,8 @@ export function FooterNavigation({
 	dynamicContent: ReactNode;
 	icpContent: ReactNode;
 }) {
+	const t = await createServerTranslator();
+
 	return (
 		<div className="flex flex-col items-start gap-y-4 text-sm text-[var(--footer-text-color)]">
 			{/* --- Group 1: This is now fully dynamic via props --- */}
@@ -47,7 +49,7 @@ export function FooterNavigation({
 						className="inline-flex items-center gap-x-1 hover:text-[var(--footer-subtext-color)] transition-colors"
 					>
 						<Map className="w-3 h-3" />
-						<span>Sitemap</span>
+						<span>{t("footer.button.sitemap")}</span>
 					</a>
 					<span className="hidden sm:inline text-xs text-[var(--footer-subtext-color)]">
 						|
@@ -57,12 +59,12 @@ export function FooterNavigation({
 						className="inline-flex items-center gap-x-1 hover:text-[var(--footer-subtext-color)] transition-colors"
 					>
 						<Send className="w-3 h-3" />
-						<span>Subscribe</span>
+						<span>{t("footer.button.subscribe")}</span>
 					</a>
 					{dynamicContent}
 				</div>
 
-				{/* --- Row 3 (MODIFIED) --- */}
+				{/* --- Row 3 --- */}
 				<div className="flex flex-wrap justify-start items-center gap-x-1.5">
 					<span className="inline-flex items-center gap-x-1">
 						Powered by{" "}

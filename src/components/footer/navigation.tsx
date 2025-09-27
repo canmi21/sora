@@ -85,7 +85,6 @@ export async function FooterNavigation({
 						>
 							Shadow
 						</a>
-						.
 					</span>
 					{icpContent}
 				</div>

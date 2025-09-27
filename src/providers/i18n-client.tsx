@@ -22,6 +22,10 @@ import { setLocaleInStorage } from "./i18n-local";
 // Client-side translation cache
 const clientTranslationCache = new Map<string, TranslationNamespace>();
 
+// Translation loading state
+const namespaceLoadingState = new Map<string, boolean>();
+const loadingCallbacks = new Map<string, (() => void)[]>();
+
 // Create the i18n context
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
@@ -36,19 +40,37 @@ async function loadClientNamespace(
 		if (clientTranslationCache.has(namespace)) {
 			return clientTranslationCache.get(namespace)!;
 		}
-		const response = await fetch(`/i18n/${namespace}`);
-		if (!response.ok) {
-			console.warn(`Translation API failed for namespace: ${namespace}`);
+
+		// If already loading, return null and the callback system will handle re-render
+		if (namespaceLoadingState.get(namespace)) {
 			return null;
 		}
+
+		namespaceLoadingState.set(namespace, true);
+
+		const response = await fetch(`/i18n/${namespace}`);
+		if (!response.ok) {
+			console.warn(`Translation failed for namespace: ${namespace}`);
+			namespaceLoadingState.set(namespace, false);
+			return null;
+		}
+
 		const translations = (await response.json()) as TranslationNamespace;
 		clientTranslationCache.set(namespace, translations);
+		namespaceLoadingState.set(namespace, false);
+
+		// Trigger callbacks for components waiting for this namespace
+		const callbacks = loadingCallbacks.get(namespace) || [];
+		callbacks.forEach((callback) => callback());
+		loadingCallbacks.set(namespace, []);
+
 		return translations;
 	} catch (error) {
 		console.error(
 			`Error loading client translation namespace "${namespace}":`,
 			error
 		);
+		namespaceLoadingState.set(namespace, false);
 		return null;
 	}
 }
@@ -134,6 +156,10 @@ export function useI18n(): I18nContextType {
 export function useTranslation() {
 	const { locale } = useI18n();
 	const localeKey = getLocaleKey(locale);
+	const [, forceUpdate] = useState({});
+
+	// Function to force component re-render
+	const triggerUpdate = () => forceUpdate({});
 
 	const t = async (key: string): Promise<string> => {
 		try {
@@ -170,7 +196,22 @@ export function useTranslation() {
 			const namespace = parts[0];
 			const valuePath = parts.slice(1);
 			const translations = clientTranslationCache.get(namespace);
-			if (!translations) return key;
+
+			if (!translations) {
+				// Register for callback when namespace loads
+				const callbacks = loadingCallbacks.get(namespace) || [];
+				if (!callbacks.includes(triggerUpdate)) {
+					callbacks.push(triggerUpdate);
+					loadingCallbacks.set(namespace, callbacks);
+				}
+
+				// Try to load asynchronously
+				if (!namespaceLoadingState.get(namespace)) {
+					loadClientNamespace(namespace);
+				}
+
+				return key;
+			}
 
 			const translationValue = getNestedValue(translations, valuePath);
 			if (!translationValue || typeof translationValue !== "object") return key;

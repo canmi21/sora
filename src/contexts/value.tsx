@@ -4,7 +4,6 @@ import { ReactNode } from "react";
 import { ValueClientProvider, ValueContextType } from "./value-client";
 
 // --- Server-Side Only Functions and Logic ---
-
 const BASE_URL = process.env.NEXT_PUBLIC_API || "https://api.canmi.net";
 
 function keyToPath(key: string): string {
@@ -33,7 +32,7 @@ export async function ValueProvider({
 			// Use the Next.js extended fetch for server-side caching with a 60-second revalidation window.
 			const res = await fetch(url, {
 				next: {
-					revalidate: 60,
+					revalidate: 300,
 				},
 			});
 

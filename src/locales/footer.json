@@ -4,10 +4,10 @@
 			"raw": "Sitemap",
 			"en_US": "Sitemap",
 			"en_GB": "Site Map",
-			"zh_CN": "站点地图",
+			"zh_CN": "网站地图",
 			"zh_HK": "網站地圖",
-			"es_ES": "Mapa del sitio",
-			"fr_FR": "Plan du site",
+			"es_ES": "Mapa web",
+			"fr_FR": "Plan site",
 			"ja_JP": "サイトマップ"
 		},
 		"subscribe": {
@@ -19,6 +19,121 @@
 			"es_ES": "Suscribirse",
 			"fr_FR": "S'abonner",
 			"ja_JP": "購読"
+		}
+	},
+	"link": {
+		"about": {
+			"raw": "About",
+			"en_US": "About",
+			"en_GB": "About",
+			"zh_CN": "关于",
+			"zh_HK": "關於",
+			"es_ES": "Sobre",
+			"fr_FR": "À propos",
+			"ja_JP": "概要"
+		},
+		"me": {
+			"raw": "Me",
+			"en_US": "Me",
+			"en_GB": "Me",
+			"zh_CN": "关于我",
+			"zh_HK": "關於我",
+			"es_ES": "Yo",
+			"fr_FR": "Moi",
+			"ja_JP": "私"
+		},
+		"site": {
+			"raw": "The Site",
+			"en_US": "The Site",
+			"en_GB": "The Site",
+			"zh_CN": "关于本站",
+			"zh_HK": "關於本站",
+			"es_ES": "El Sitio",
+			"fr_FR": "Le Site",
+			"ja_JP": "当サイト"
+		},
+		"project": {
+			"raw": "The Project",
+			"en_US": "The Project",
+			"en_GB": "The Project",
+			"zh_CN": "关于此项目",
+			"zh_HK": "關於此項目",
+			"es_ES": "Proyecto",
+			"fr_FR": "Projet",
+			"ja_JP": "企画"
+		},
+		"more": {
+			"raw": "More",
+			"en_US": "More",
+			"en_GB": "More",
+			"zh_CN": "更多",
+			"zh_HK": "更多",
+			"es_ES": "Más",
+			"fr_FR": "Plus",
+			"ja_JP": "詳細"
+		},
+		"repos": {
+			"raw": "Repos",
+			"en_US": "Repos",
+			"en_GB": "Repos",
+			"zh_CN": "仓库",
+			"zh_HK": "倉庫",
+			"es_ES": "Repos",
+			"fr_FR": "Dépôts",
+			"ja_JP": "リポジトリ"
+		},
+		"opensource": {
+			"raw": "OpenSource",
+			"en_US": "OpenSource",
+			"en_GB": "OpenSource",
+			"zh_CN": "开源",
+			"zh_HK": "開源",
+			"es_ES": "Código Abierto",
+			"fr_FR": "OpenSource",
+			"ja_JP": "オープンソース"
+		},
+		"sponsor": {
+			"raw": "Sponsor",
+			"en_US": "Sponsor",
+			"en_GB": "Sponsor",
+			"zh_CN": "赞助",
+			"zh_HK": "贊助",
+			"es_ES": "Patrocinar",
+			"fr_FR": "Sponsor",
+			"ja_JP": "スポンサー"
+		},
+		"contact": {
+			"raw": "Contact",
+			"en_US": "Contact",
+			"en_GB": "Contact",
+			"zh_CN": "联系",
+			"zh_HK": "聯繫",
+			"es_ES": "Contacto",
+			"fr_FR": "Contact",
+			"ja_JP": "連絡先"
+		},
+		"github": {
+			"raw": "Github"
+		},
+		"email": {
+			"raw": "Email",
+			"en_US": "Email",
+			"en_GB": "Email",
+			"zh_CN": "邮箱",
+			"zh_HK": "郵箱",
+			"es_ES": "Email",
+			"fr_FR": "Email",
+			"ja_JP": "メール"
+		},
+		"status": {
+			"raw": "Status",
+			"en_US": "Status",
+			"en_GB": "Status",
+			"zh_CN": "系统状态",
+			"zh_HK": "系统狀態",
+			"es_ES": "Estado",
+			"fr_FR": "Statut",
+			"ja_JP": "ステータス"
 		}
 	}
 }

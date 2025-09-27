@@ -19,12 +19,20 @@ import {
 
 import { setLocaleInStorage } from "./i18n-local";
 
+interface SyncTimeout {
+	startTime: number;
+	promise: Promise<string>;
+}
+
 // Client-side translation cache
 const clientTranslationCache = new Map<string, TranslationNamespace>();
 
 // Translation loading state
 const namespaceLoadingState = new Map<string, boolean>();
 const loadingCallbacks = new Map<string, (() => void)[]>();
+
+// Timeout tracking for sync requests
+const syncTimeouts = new Map<string, SyncTimeout>();
 
 // Create the i18n context
 const I18nContext = createContext<I18nContextType | undefined>(undefined);

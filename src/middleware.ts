@@ -3,18 +3,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { i18nMiddleware } from "./middlewares/i18n";
 
-// Define paths that should be excluded from the middleware.
 export const config = {
 	matcher: [
-		/*
-		 * Match all request paths except for the ones starting with:
-		 * - api (API routes)
-		 * - _next/static (static files)
-		 * - _next/image (image optimization files)
-		 * - favicon.ico (favicon file)
-		 * - i18n (your translation API route)
-		 */
-		"/((?!api|_next/static|_next/image|favicon.ico|i18n).*)",
+		// Exclude Next.js internals
+		"/((?!_next).*)",
+		// Exclude i18n API
+		"/((?!i18n).*)",
+		// Exclude static assets in /public
+		"/((?!favicon.ico).*)",
+		"/((?!favicon.svg).*)",
+		"/((?!favicon-96x96.png).*)",
+		"/((?!apple-touch-icon.png).*)",
+		"/((?!site.webmanifest).*)",
+		"/((?!web-app-manifest-192x192.png).*)",
+		"/((?!web-app-manifest-512x512.png).*)",
 	],
 };
 
@@ -27,10 +29,5 @@ export function middleware(request: NextRequest) {
 		return i18nResponse;
 	}
 
-	// Add other middlewares here in the future if needed.
-	// const anotherMiddlewareResponse = anotherMiddleware(request);
-	// if (anotherMiddlewareResponse) return anotherMiddlewareResponse;
-
-	// If no middleware returned a response, continue to the request handler.
 	return NextResponse.next();
 }

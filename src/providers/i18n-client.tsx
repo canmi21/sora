@@ -17,14 +17,7 @@ import {
 	getLocaleKey,
 } from "./i18n";
 
-const LOCAL_STORAGE_KEY = "@sora/locale";
-function setLocaleInStorage(locale: SupportedLocale): void {
-	try {
-		window.localStorage.setItem(LOCAL_STORAGE_KEY, locale);
-	} catch (error) {
-		console.error("Error setting locale in localStorage:", error);
-	}
-}
+import { setLocaleInStorage } from "./i18n-local";
 
 // Client-side translation cache
 const clientTranslationCache = new Map<string, TranslationNamespace>();
@@ -90,24 +83,19 @@ interface I18nProviderProps {
 export function I18nProvider({ children, initialLocale }: I18nProviderProps) {
 	const [locale, setLocale] = useState<SupportedLocale>(initialLocale);
 
+	// This effect runs whenever the server-provided locale changes.
 	useEffect(() => {
 		// The `initialLocale` from the server is the source of truth for this page load.
-		// This is because it reflects the most recent user action (e.g., using ?lang=)
-		// or the most accurate server-side detection.
 		// Our job on the client is to synchronize our persistent storage (localStorage)
 		// and our React state to match this server-provided truth.
 
-		// Persist the server-determined locale to localStorage.
+		// 1. Persist the server-determined locale to localStorage using the imported function.
 		setLocaleInStorage(initialLocale);
 
-		// Ensure the React state also matches this server-determined locale.
-		// This handles edge cases where the component might re-render.
+		// 2. Ensure the React state also matches this server-determined locale.
 		if (locale !== initialLocale) {
 			setLocale(initialLocale);
 		}
-
-		// This effect should run whenever the server-provided locale changes,
-		// which happens on navigation to a new page.
 	}, [initialLocale, locale]);
 
 	/**
@@ -115,10 +103,8 @@ export function I18nProvider({ children, initialLocale }: I18nProviderProps) {
 	 * to trigger a language change.
 	 */
 	const handleSetLocale = (newLocale: SupportedLocale) => {
-		// To correctly change the language for the entire application (including SSR),
-		// we must involve the server so it can set the correct cookie for the next render.
-		// The most reliable way to do this is to reload the page with the `?lang` parameter.
-		// Our middleware will intercept this, set the cookie, and redirect to a clean URL.
+		// To correctly change the language for the entire application, we reload
+		// the page with the `?lang` parameter. The middleware handles the rest.
 		const currentUrl = new URL(window.location.href);
 		currentUrl.searchParams.set("lang", newLocale);
 		window.location.href = currentUrl.href;

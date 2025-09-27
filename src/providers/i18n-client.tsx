@@ -16,7 +16,15 @@ import {
 	TranslationValue,
 	getLocaleKey,
 } from "./i18n";
-import { initializeAndSyncLocale } from "./i18n-local";
+
+const LOCAL_STORAGE_KEY = "@sora/locale";
+function setLocaleInStorage(locale: SupportedLocale): void {
+	try {
+		window.localStorage.setItem(LOCAL_STORAGE_KEY, locale);
+	} catch (error) {
+		console.error("Error setting locale in localStorage:", error);
+	}
+}
 
 // Client-side translation cache
 const clientTranslationCache = new Map<string, TranslationNamespace>();
@@ -35,13 +43,11 @@ async function loadClientNamespace(
 		if (clientTranslationCache.has(namespace)) {
 			return clientTranslationCache.get(namespace)!;
 		}
-
 		const response = await fetch(`/i18n/${namespace}`);
 		if (!response.ok) {
 			console.warn(`Translation API failed for namespace: ${namespace}`);
 			return null;
 		}
-
 		const translations = (await response.json()) as TranslationNamespace;
 		clientTranslationCache.set(namespace, translations);
 		return translations;
@@ -74,36 +80,48 @@ function getNestedValue(
 
 /**
  * I18n Provider Component for the client side.
- * It receives the server-detected locale and synchronizes with localStorage.
+ * It receives the server-detected locale and synchronizes it with client-side storage.
  */
 interface I18nProviderProps {
 	children: ReactNode;
-	initialLocale: SupportedLocale; // This prop is now mandatory and comes from the server.
+	initialLocale: SupportedLocale;
 }
 
 export function I18nProvider({ children, initialLocale }: I18nProviderProps) {
 	const [locale, setLocale] = useState<SupportedLocale>(initialLocale);
 
-	// On the very first client-side mount, this effect runs.
-	// It initializes localStorage if it's a first-time user, or it reads the
-	// existing value from localStorage and ensures the cookie is up-to-date.
 	useEffect(() => {
-		const clientPreferredLocale = initializeAndSyncLocale();
-		// If the localStorage locale is different from the server-rendered one
-		// (e.g., user changed language on another tab), update the state.
-		if (clientPreferredLocale !== locale) {
-			setLocale(clientPreferredLocale);
-		}
-	}, []); // Empty dependency array ensures this runs only once on mount.
+		// The `initialLocale` from the server is the source of truth for this page load.
+		// This is because it reflects the most recent user action (e.g., using ?lang=)
+		// or the most accurate server-side detection.
+		// Our job on the client is to synchronize our persistent storage (localStorage)
+		// and our React state to match this server-provided truth.
 
-	// This function will be called by a language switcher UI to change the locale.
+		// Persist the server-determined locale to localStorage.
+		setLocaleInStorage(initialLocale);
+
+		// Ensure the React state also matches this server-determined locale.
+		// This handles edge cases where the component might re-render.
+		if (locale !== initialLocale) {
+			setLocale(initialLocale);
+		}
+
+		// This effect should run whenever the server-provided locale changes,
+		// which happens on navigation to a new page.
+	}, [initialLocale, locale]);
+
+	/**
+	 * This function should be called by a UI element (e.g., a language switcher)
+	 * to trigger a language change.
+	 */
 	const handleSetLocale = (newLocale: SupportedLocale) => {
-		setLocale(newLocale);
-		// Update both localStorage and the cookie when the user makes a change.
-		// Note: The page will need a reload to get new server-rendered content in the new language.
-		// A language switcher can handle this by doing `window.location.reload()`.
-		localStorage.setItem("@sora/locale", newLocale);
-		document.cookie = `locale=${newLocale}; path=/; max-age=31536000; SameSite=Strict`;
+		// To correctly change the language for the entire application (including SSR),
+		// we must involve the server so it can set the correct cookie for the next render.
+		// The most reliable way to do this is to reload the page with the `?lang` parameter.
+		// Our middleware will intercept this, set the cookie, and redirect to a clean URL.
+		const currentUrl = new URL(window.location.href);
+		currentUrl.searchParams.set("lang", newLocale);
+		window.location.href = currentUrl.href;
 	};
 
 	return (

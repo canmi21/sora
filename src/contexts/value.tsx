@@ -54,7 +54,7 @@ export async function ValueProvider({
 							jsonResponse.data.value,
 							"base64"
 						).toString("utf-8");
-					} catch (e) {
+					} catch {
 						console.error(`Failed to decode base64 for key "${key}"`);
 						return null;
 					}

@@ -3,35 +3,51 @@
 "use client";
 
 import { useValueContext } from "~/contexts/value-client";
+import { useI18n } from "~/providers/i18n-client";
+import type { SupportedLocale } from "~/providers/i18n";
 import { Fragment } from "react";
 
-// Define a type for the expected ICP data structure for better type safety.
+/**
+ * Defines the shape of the ICP data from the backend, now including the 'visible' array.
+ */
 type IcpItem = {
 	text: string;
 	url: string;
+	visible: SupportedLocale[];
 };
 
 /**
- * A Client Component that renders the dynamic list of ICP records.
- * It gracefully handles cases where the data is missing or not an array.
+ * A Client Component that renders a locale-aware list of ICP records.
+ * It filters the list based on the current language before displaying it.
  */
 export function IcpList() {
 	const values = useValueContext();
-	const icpData = values.get("site.icp");
+	const { locale } = useI18n(); // Get the current locale (e.g., 'zh-CN', 'en-US')
+	const allIcpData = values.get("site.icp");
 
-	// Type guard to ensure the data is a non-empty array before we try to render it.
-	if (!Array.isArray(icpData) || icpData.length === 0) {
-		// As requested, fallback to rendering nothing if data is missing or invalid.
+	// First, perform the basic type guard.
+	if (!Array.isArray(allIcpData) || allIcpData.length === 0) {
 		return null;
 	}
 
-	// If we are rendering the list, wrap everything in a Fragment.
+	// Filter the data based on the current locale
+	const visibleIcpData = (allIcpData as IcpItem[]).filter((item) =>
+		item.visible.includes(locale)
+	);
+
+	// If, after filtering, there are no items to display for the current locale, render nothing.
+	if (visibleIcpData.length === 0) {
+		return null;
+	}
+
+	// If we have items to render, proceed as before but with the filtered list.
 	return (
 		<>
 			<span className="text-xs text-[var(--footer-subtext-color)]">|</span>
 
-			{(icpData as IcpItem[]).map((icp, index) => (
+			{visibleIcpData.map((icp, index) => (
 				<Fragment key={icp.text}>
+					{/* Add a separator before every item except the first one. */}
 					{index > 0 && (
 						<span className="text-xs text-[var(--footer-subtext-color)]">
 							|

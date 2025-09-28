@@ -32,7 +32,7 @@ export async function getRawValue<T>(key: string, fallback: T): Promise<T> {
 		}
 
 		return fallback;
-	} catch (error) {
+	} catch {
 		// If any error occurs (network, parsing, etc.), return the fallback.
 		return fallback;
 	}

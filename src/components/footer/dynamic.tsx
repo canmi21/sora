@@ -2,47 +2,62 @@
 
 "use client";
 
-import { Suspense, useRef, useState, useEffect } from "react";
+import { Suspense, useRef, useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import { useValueContext } from "~/contexts/value-client";
 import { ToggleTheme } from "../shared/toggle-theme";
 import { ToggleLang } from "../shared/toggle-lang";
 
 function LanguageToggle() {
 	const ref = useRef<HTMLDivElement>(null);
-	const [menu_colors, set_menu_colors] = useState({
+	const { resolvedTheme } = useTheme();
+	const [colors, setColors] = useState({
+		track: "",
 		background: "",
 		border: "",
 		hover: "",
-		triggerBackground: "",
 	});
 
-	useEffect(() => {
+	const updateColors = () => {
 		if (ref.current) {
-			const computed_style = window.getComputedStyle(ref.current);
-			set_menu_colors({
-				background: computed_style
-					.getPropertyValue("--footer-background")
-					.trim(),
-				border: computed_style.getPropertyValue("--footer-border-color").trim(),
-				hover: computed_style
-					.getPropertyValue("--footer-toggle-track-color")
-					.trim(),
-				triggerBackground: computed_style
-					.getPropertyValue("--footer-toggle-track-color")
-					.trim(),
+			const computed = window.getComputedStyle(ref.current);
+			setColors({
+				track: computed.getPropertyValue("--footer-toggle-track-color").trim(),
+				background: computed.getPropertyValue("--footer-background").trim(),
+				border: computed.getPropertyValue("--footer-border-color").trim(),
+				hover: computed.getPropertyValue("--footer-toggle-track-color").trim(),
 			});
 		}
+	};
+
+	// 初始加载时获取颜色
+	useEffect(() => {
+		updateColors();
 	}, []);
 
+	// 监听主题变化，但需要延迟一下确保CSS变量已更新
+	useEffect(() => {
+		if (resolvedTheme) {
+			// 使用 requestAnimationFrame 确保在下次重绘时获取颜色
+			const timeoutId = setTimeout(() => {
+				requestAnimationFrame(() => {
+					updateColors();
+				});
+			}, 50); // 给CSS变量更新留一点时间
+
+			return () => clearTimeout(timeoutId);
+		}
+	}, [resolvedTheme]);
+
 	return (
-		<div ref={ref}>
-			{menu_colors.background && (
+		<div ref={ref} className="site-footer">
+			{colors.background && (
 				<ToggleLang
-					menuBackgroundColor={menu_colors.background}
-					menuBorderColor={menu_colors.border}
-					menuItemHoverColor={menu_colors.hover}
+					trackColor={colors.track}
+					menuBackgroundColor={colors.background}
+					menuBorderColor={colors.border}
+					menuItemHoverColor={colors.hover}
 					triggerColor="var(--color-subtext)"
-					triggerBackgroundColor={menu_colors.triggerBackground}
 				/>
 			)}
 		</div>

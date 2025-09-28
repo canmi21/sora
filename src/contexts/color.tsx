@@ -35,4 +35,4 @@ export function ColorProvider({ children }: { children: ReactNode }) {
 	);
 }
 
-export const use_color_context = () => useContext(ColorContext);
+export const useColorContext = () => useContext(ColorContext);

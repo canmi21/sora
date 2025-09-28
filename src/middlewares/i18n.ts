@@ -5,35 +5,72 @@ import type { NextRequest } from "next/server";
 import { SUPPORTED_LOCALES, SupportedLocale } from "~/providers/i18n";
 
 /**
+ * A map to convert simplified or alternative language codes
+ * to the canonical locales used in the application.
+ */
+const localeMapping: Record<string, SupportedLocale> = {
+	raw: "und",
+	en: "en-US", // Default English to en-US
+	"en-us": "en-US",
+	"en-gb": "en-GB",
+	zh: "zh-CN", // Default Chinese to zh-CN
+	"zh-cn": "zh-CN",
+	"zh-hk": "zh-HK",
+	"zh-tw": "zh-HK", // Map Traditional Chinese (Taiwan) to Hong Kong locale
+	ja: "ja-JP",
+	fr: "fr-FR",
+	es: "es-ES",
+};
+
+/**
  * The i18n middleware.
  * It checks for a `lang` query parameter to override the current locale.
- * If a valid `lang` is found, it sets the `locale` cookie and redirects
- * to the same URL without the `lang` parameter for a clean user experience.
+ * It supports both canonical locales (e.g., "en-US") and simplified aliases (e.g., "en").
  */
 export function i18nMiddleware(request: NextRequest): NextResponse | null {
 	const { nextUrl } = request;
-	const lang = nextUrl.searchParams.get("lang");
+	const langParam = nextUrl.searchParams.get("lang");
 
-	// Check if a 'lang' parameter exists and is a supported locale.
-	if (lang && SUPPORTED_LOCALES.includes(lang as SupportedLocale)) {
-		// Create a response to set the cookie. We will redirect, so this can be a simple response.
-		// Note: We don't need NextResponse.next() here; we can use the main response object for redirection.
+	if (!langParam) {
+		// If no 'lang' parameter exists, do nothing.
+		return null;
+	}
+
+	// Normalize the lang parameter to lower case for case-insensitive matching.
+	const normalizedLang = langParam.toLowerCase();
+
+	// Determine the final locale to set.
+	let targetLocale: SupportedLocale | null = null;
+
+	// 1. Check if the parameter is a direct, supported locale (e.g., "en-US").
+	if (SUPPORTED_LOCALES.includes(normalizedLang as SupportedLocale)) {
+		targetLocale = normalizedLang as SupportedLocale;
+	}
+	// 2. If not, check if it's a simplified alias in our mapping (e.g., "en").
+	else if (localeMapping[normalizedLang]) {
+		targetLocale = localeMapping[normalizedLang];
+	}
+
+	// If a valid locale was determined (either direct or mapped).
+	if (targetLocale) {
 		const redirectUrl = new URL(request.nextUrl);
 		redirectUrl.searchParams.delete("lang");
 
 		const response = NextResponse.redirect(redirectUrl, 307);
 
-		// Set the locale cookie on the redirect response.
-		response.cookies.set("locale", lang, {
+		// Set the cookie with the canonical, supported locale.
+		response.cookies.set("locale", targetLocale, {
 			path: "/",
 			maxAge: 31536000, // 1 year
 			sameSite: "strict",
 		});
 
-		//Return the response which contains both the redirect and the cookie.
 		return response;
 	}
 
-	// If no valid 'lang' parameter is found, do nothing and pass to the next middleware or request handler.
-	return null;
+	// If the 'lang' parameter is invalid and not in our mapping, we can simply
+	// redirect to the clean URL without setting a new cookie.
+	const redirectUrl = new URL(request.nextUrl);
+	redirectUrl.searchParams.delete("lang");
+	return NextResponse.redirect(redirectUrl, 307);
 }

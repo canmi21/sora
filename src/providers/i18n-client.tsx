@@ -77,18 +77,18 @@ async function loadClientNamespace(
  * Retrieves a nested value from an object using a dot-separated path.
  */
 function getNestedValue(
-	obj: any,
+	obj: unknown,
 	path: string[]
 ): TranslationValue | undefined {
 	let current = obj;
 	for (const key of path) {
 		if (current && typeof current === "object" && key in current) {
-			current = current[key];
+			current = (current as Record<string, unknown>)[key];
 		} else {
 			return undefined;
 		}
 	}
-	return current;
+	return current as TranslationValue;
 }
 
 /**

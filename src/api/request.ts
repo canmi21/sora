@@ -55,7 +55,7 @@ export interface ClientApiErrorResponse {
  * The unified response type that our `get`, `post`, etc. functions will return.
  * This allows for easy handling with a simple `if (response.success)` check.
  */
-export type ClientApiResponse<T = any> =
+export type ClientApiResponse<T = unknown> =
 	| ClientApiSuccessResponse<T>
 	| ClientApiErrorResponse;
 
@@ -139,7 +139,7 @@ export function get<T>(path: string): Promise<ClientApiResponse<T>> {
  */
 export function post<T>(
 	path: string,
-	json?: any
+	json?: unknown
 ): Promise<ClientApiResponse<T>> {
 	return request<T>(path, {
 		method: "POST",
@@ -155,7 +155,7 @@ export function post<T>(
  */
 export function put<T>(
 	path: string,
-	json?: any
+	json?: unknown
 ): Promise<ClientApiResponse<T>> {
 	return request<T>(path, {
 		method: "PUT",

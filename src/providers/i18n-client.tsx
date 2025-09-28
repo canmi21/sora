@@ -218,7 +218,7 @@ export function useTranslation() {
 
 			// Return the key for the initial render to prevent UI flickering.
 			return key;
-		} catch (error) {
+		} catch {
 			return key;
 		}
 	};

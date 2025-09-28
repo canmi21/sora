@@ -3,11 +3,11 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { ColorProvider, use_color_context } from "./color";
+import { ColorProvider, useColorContext } from "./color";
 import { ThemeProvider } from "./theme";
 
 function AppLayout({ children }: { children: ReactNode }) {
-	const { theme_color } = use_color_context();
+	const { theme_color } = useColorContext();
 
 	return (
 		<div

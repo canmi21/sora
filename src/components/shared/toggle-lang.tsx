@@ -2,11 +2,11 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useI18n } from "~/providers/i18n-client";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { AnimatePresence, motion } from "framer-motion";
-import { Globe, Check, ChevronUp, ChevronDown } from "lucide-react";
+import { Globe, Check, ChevronDown } from "lucide-react";
 import { SUPPORTED_LOCALES, SupportedLocale } from "~/providers/i18n";
 
 const FULL_LOCALE_NAMES: Record<SupportedLocale, string> = {
@@ -48,19 +48,83 @@ const LOCALE_DISPLAY_ORDER: SupportedLocale[] = [
 ];
 
 interface ToggleLangProps {
+	trackColor?: string;
 	menuBackgroundColor?: string;
 	menuBorderColor?: string;
 	menuItemHoverColor?: string;
 	triggerColor?: string;
-	triggerBackgroundColor?: string;
+}
+
+function AnimatedMenuItem({
+	langOption,
+	name,
+	isSelected,
+	onSelect,
+	hoverColor,
+}: {
+	langOption: SupportedLocale;
+	name: NativeLocaleName;
+	isSelected: boolean;
+	onSelect: () => void;
+	hoverColor?: string;
+}) {
+	const [isHovered, setIsHovered] = useState(false);
+
+	return (
+		<DropdownMenu.Item
+			onSelect={onSelect}
+			className="lang-menu-item relative flex cursor-pointer select-none items-center rounded-md px-2 py-1.5 text-sm outline-none overflow-hidden"
+			onMouseEnter={() => setIsHovered(true)}
+			onMouseLeave={() => setIsHovered(false)}
+		>
+			{/* 涟漪背景动画 - 使用内联 style */}
+			<motion.div
+				className="absolute inset-0 rounded-md"
+				initial={{ opacity: 0 }}
+				animate={{ opacity: isHovered ? 1 : 0 }}
+				transition={{
+					duration: 0.15,
+					ease: "easeOut",
+				}}
+				style={{
+					backgroundColor: hoverColor || "var(--footer-toggle-track-color)",
+				}}
+			/>
+
+			{/* 内容 */}
+			<div className="relative z-10 flex items-center w-full">
+				{isSelected && (
+					<motion.div
+						initial={{ scale: 0, opacity: 0 }}
+						animate={{ scale: 1, opacity: 1 }}
+						transition={{ duration: 0.2 }}
+						className="absolute left-0.5"
+					>
+						<Check className="h-4 w-4" style={{ color: "var(--color-text)" }} />
+					</motion.div>
+				)}
+				<span
+					className="pl-6 flex items-baseline gap-x-1.5"
+					style={{ color: "var(--color-text)" }}
+				>
+					<span>{name.main}</span>
+					{name.region && (
+						<span className="text-xs" style={{ color: "var(--color-subtext)" }}>
+							({name.region})
+						</span>
+					)}
+				</span>
+			</div>
+		</DropdownMenu.Item>
+	);
 }
 
 export function ToggleLang({
+	trackColor,
 	menuBackgroundColor,
 	menuBorderColor,
 	menuItemHoverColor,
 	triggerColor,
-	triggerBackgroundColor,
 }: ToggleLangProps) {
 	const [is_mounted, set_is_mounted] = useState(false);
 	const [is_open, set_is_open] = useState(false);
@@ -77,33 +141,39 @@ export function ToggleLang({
 	};
 
 	if (!is_mounted) {
-		return <div className="h-9 w-56 rounded-full" />;
+		return (
+			<div
+				className="h-9 w-56 rounded-full"
+				style={{ backgroundColor: trackColor || "var(--color-bg-alt)" }}
+			/>
+		);
 	}
 
 	return (
 		<DropdownMenu.Root open={is_open} onOpenChange={set_is_open}>
 			<DropdownMenu.Trigger asChild>
 				<button
-					className="flex h-9 items-center gap-x-1.5 rounded-full px-3 text-sm transition-colors duration-300 focus:outline-none"
+					className="lang-toggle-trigger flex h-9 items-center gap-x-1.5 rounded-full px-3 text-sm transition-colors duration-300 focus:outline-none"
 					aria-label="Language toggle"
 					style={{
+						backgroundColor: trackColor || "var(--color-bg-alt)",
 						color: triggerColor || "var(--color-subtext)",
-						backgroundColor: triggerBackgroundColor,
 					}}
 				>
 					<Globe className="h-4 w-4" />
 					<span className="flex-grow text-left whitespace-nowrap">
 						{FULL_LOCALE_NAMES[locale]}
 					</span>
-					{is_open ? (
-						<ChevronUp className="h-4 w-4" />
-					) : (
+					<motion.div
+						animate={{ rotate: is_open ? 180 : 0 }}
+						transition={{ duration: 0.2, ease: "easeInOut" }}
+					>
 						<ChevronDown className="h-4 w-4" />
-					)}
+					</motion.div>
 				</button>
 			</DropdownMenu.Trigger>
 
-			<AnimatePresence>
+			<AnimatePresence mode="wait">
 				{is_open && (
 					<DropdownMenu.Portal forceMount>
 						<DropdownMenu.Content
@@ -111,24 +181,23 @@ export function ToggleLang({
 							side="top"
 							align="end"
 							sideOffset={8}
-							className="z-50 overflow-hidden rounded-lg p-1 shadow-lg focus:outline-none"
-							style={
-								{
-									backgroundColor: menuBackgroundColor,
-									border: menuBorderColor
-										? `1px solid ${menuBorderColor}`
-										: undefined,
-									"--menu-item-hover-bg":
-										menuItemHoverColor || "var(--color-bg)",
-									minWidth: "var(--radix-dropdown-menu-trigger-width)",
-								} as React.CSSProperties
-							}
+							className="lang-dropdown-content z-50 overflow-hidden rounded-lg p-1 shadow-lg focus:outline-none"
+							style={{
+								backgroundColor: menuBackgroundColor || "var(--color-bg)",
+								border: menuBorderColor
+									? `1px solid ${menuBorderColor}`
+									: `1px solid var(--color-bg-alt)`,
+								minWidth: "var(--radix-dropdown-menu-trigger-width)",
+							}}
 						>
 							<motion.div
-								initial={{ opacity: 0, y: 10 }}
-								animate={{ opacity: 1, y: 0 }}
-								exit={{ opacity: 0, y: 10 }}
-								transition={{ duration: 0.2 }}
+								initial={{ opacity: 0, y: 10, scale: 0.95 }}
+								animate={{ opacity: 1, y: 0, scale: 1 }}
+								exit={{ opacity: 0, y: -10, scale: 0.95 }}
+								transition={{
+									duration: 0.2,
+									ease: [0.4, 0, 0.2, 1],
+								}}
 							>
 								{SUPPORTED_LOCALES.slice()
 									.sort(
@@ -143,31 +212,14 @@ export function ToggleLang({
 											return null;
 										}
 										return (
-											<DropdownMenu.Item
+											<AnimatedMenuItem
 												key={lang_option}
+												langOption={lang_option}
+												name={name}
+												isSelected={locale === lang_option}
 												onSelect={() => handle_lang_change(lang_option)}
-												className="relative flex cursor-pointer select-none items-center rounded-md px-2 py-1.5 text-sm outline-none transition-colors hover:bg-[--menu-item-hover-bg] data-[disabled]:pointer-events-none data-[disabled]:opacity-50"
-											>
-												{locale === lang_option && (
-													<Check className="absolute left-2 h-4 w-4" />
-												)}
-												<span
-													className="pl-6 flex items-baseline gap-x-1.5"
-													style={{ color: "var(--color-text)" }}
-												>
-													<span>{name.main}</span>
-													{name.region && (
-														<span
-															className="text-xs"
-															style={{
-																color: "var(--color-subtext)",
-															}}
-														>
-															({name.region})
-														</span>
-													)}
-												</span>
-											</DropdownMenu.Item>
+												hoverColor={menuItemHoverColor}
+											/>
 										);
 									})}
 							</motion.div>

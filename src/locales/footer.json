@@ -3,12 +3,12 @@
 		"sitemap": {
 			"raw": "Sitemap",
 			"en_US": "Sitemap",
-			"en_GB": "Site Map",
-			"zh_CN": "网站地图",
+			"en_GB": "Sitemap",
+			"zh_CN": "站点地图",
 			"zh_HK": "網站地圖",
-			"es_ES": "Mapa web",
-			"fr_FR": "Plan site",
-			"ja_JP": "サイトマップ"
+			"es_ES": "Mapa",
+			"fr_FR": "Plan",
+			"ja_JP": "マップ"
 		},
 		"subscribe": {
 			"raw": "Subscribe",
@@ -16,8 +16,8 @@
 			"en_GB": "Subscribe",
 			"zh_CN": "订阅",
 			"zh_HK": "訂閱",
-			"es_ES": "Suscribirse",
-			"fr_FR": "S'abonner",
+			"es_ES": "Suscribir",
+			"fr_FR": "Abonner",
 			"ja_JP": "購読"
 		}
 	},
@@ -28,8 +28,8 @@
 			"en_GB": "About",
 			"zh_CN": "关于",
 			"zh_HK": "關於",
-			"es_ES": "Sobre",
-			"fr_FR": "À propos",
+			"es_ES": "Info",
+			"fr_FR": "Info",
 			"ja_JP": "概要"
 		},
 		"me": {
@@ -47,9 +47,9 @@
 			"en_US": "The Site",
 			"en_GB": "The Site",
 			"zh_CN": "关于本站",
-			"zh_HK": "關於本站",
-			"es_ES": "El Sitio",
-			"fr_FR": "Le Site",
+			"zh_HK": "本站",
+			"es_ES": "Sitio",
+			"fr_FR": "Site",
 			"ja_JP": "当サイト"
 		},
 		"project": {
@@ -57,10 +57,10 @@
 			"en_US": "The Project",
 			"en_GB": "The Project",
 			"zh_CN": "关于此项目",
-			"zh_HK": "關於此項目",
+			"zh_HK": "項目",
 			"es_ES": "Proyecto",
 			"fr_FR": "Projet",
-			"ja_JP": "企画"
+			"ja_JP": "計画"
 		},
 		"more": {
 			"raw": "More",
@@ -79,8 +79,8 @@
 			"zh_CN": "仓库",
 			"zh_HK": "倉庫",
 			"es_ES": "Repos",
-			"fr_FR": "Dépôts",
-			"ja_JP": "リポジトリ"
+			"fr_FR": "Dépôt",
+			"ja_JP": "リポジ"
 		},
 		"opensource": {
 			"raw": "OpenSource",
@@ -88,9 +88,9 @@
 			"en_GB": "OpenSource",
 			"zh_CN": "开源",
 			"zh_HK": "開源",
-			"es_ES": "Código Abierto",
-			"fr_FR": "OpenSource",
-			"ja_JP": "オープンソース"
+			"es_ES": "Abierto",
+			"fr_FR": "Libre",
+			"ja_JP": "OSS"
 		},
 		"sponsor": {
 			"raw": "Sponsor",
@@ -98,9 +98,9 @@
 			"en_GB": "Sponsor",
 			"zh_CN": "赞助",
 			"zh_HK": "贊助",
-			"es_ES": "Patrocinar",
-			"fr_FR": "Sponsor",
-			"ja_JP": "スポンサー"
+			"es_ES": "Patro",
+			"fr_FR": "Parrain",
+			"ja_JP": "支援"
 		},
 		"contact": {
 			"raw": "Contact",
@@ -108,9 +108,9 @@
 			"en_GB": "Contact",
 			"zh_CN": "联系",
 			"zh_HK": "聯繫",
-			"es_ES": "Contacto",
+			"es_ES": "Contact",
 			"fr_FR": "Contact",
-			"ja_JP": "連絡先"
+			"ja_JP": "連絡"
 		},
 		"github": {
 			"raw": "Github"
@@ -129,8 +129,8 @@
 			"raw": "Status",
 			"en_US": "Status",
 			"en_GB": "Status",
-			"zh_CN": "系统状态",
-			"zh_HK": "系统狀態",
+			"zh_CN": "监控",
+			"zh_HK": "监控",
 			"es_ES": "Estado",
 			"fr_FR": "Statut",
 			"ja_JP": "ステータス"

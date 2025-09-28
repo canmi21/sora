@@ -83,8 +83,9 @@ export async function FooterNavigation({
 							rel="noopener noreferrer"
 							className="hover:text-[var(--footer-subtext-color)] transition-colors"
 						>
-							Shadow
+							Shadow.
 						</a>
+						All systems normal.
 					</span>
 					{icpContent}
 				</div>

@@ -8,6 +8,7 @@ import React, {
 	useState,
 	useEffect,
 	ReactNode,
+	useCallback,
 } from "react";
 import {
 	SupportedLocale,
@@ -16,61 +17,50 @@ import {
 	TranslationValue,
 	getLocaleKey,
 } from "./i18n";
-
 import { setLocaleInStorage } from "./i18n-local";
 
-interface SyncTimeout {
-	startTime: number;
-	promise: Promise<string>;
-}
-
-// Client-side translation cache
+// --- Module-level state and caches (shared across all hook instances) ---
 const clientTranslationCache = new Map<string, TranslationNamespace>();
-
-// Translation loading state
 const namespaceLoadingState = new Map<string, boolean>();
 const loadingCallbacks = new Map<string, (() => void)[]>();
-
-// Timeout tracking for sync requests
-const syncTimeouts = new Map<string, SyncTimeout>();
 
 // Create the i18n context
 const I18nContext = createContext<I18nContextType | undefined>(undefined);
 
 /**
  * Loads a translation namespace from the API endpoint.
- * Caches the result to avoid redundant network requests.
+ * This function should ONLY run in the browser.
  */
 async function loadClientNamespace(
 	namespace: string
 ): Promise<TranslationNamespace | null> {
+	// Guard against being called on the server.
+	if (typeof window === "undefined") {
+		return null;
+	}
+	if (clientTranslationCache.has(namespace)) {
+		return clientTranslationCache.get(namespace)!;
+	}
+	if (namespaceLoadingState.get(namespace)) {
+		return null; // A fetch is already in progress.
+	}
+
 	try {
-		if (clientTranslationCache.has(namespace)) {
-			return clientTranslationCache.get(namespace)!;
-		}
-
-		// If already loading, return null and the callback system will handle re-render
-		if (namespaceLoadingState.get(namespace)) {
-			return null;
-		}
-
 		namespaceLoadingState.set(namespace, true);
-
 		const response = await fetch(`/i18n/${namespace}`);
 		if (!response.ok) {
-			console.warn(`Translation failed for namespace: ${namespace}`);
+			console.warn(`Translation API failed for namespace: ${namespace}`);
 			namespaceLoadingState.set(namespace, false);
 			return null;
 		}
-
 		const translations = (await response.json()) as TranslationNamespace;
 		clientTranslationCache.set(namespace, translations);
 		namespaceLoadingState.set(namespace, false);
 
-		// Trigger callbacks for components waiting for this namespace
+		// Notify all subscribed components that the data is ready.
 		const callbacks = loadingCallbacks.get(namespace) || [];
 		callbacks.forEach((callback) => callback());
-		loadingCallbacks.set(namespace, []);
+		loadingCallbacks.delete(namespace); // Clean up callbacks.
 
 		return translations;
 	} catch (error) {
@@ -103,7 +93,6 @@ function getNestedValue(
 
 /**
  * I18n Provider Component for the client side.
- * It receives the server-detected locale and synchronizes it with client-side storage.
  */
 interface I18nProviderProps {
 	children: ReactNode;
@@ -113,28 +102,19 @@ interface I18nProviderProps {
 export function I18nProvider({ children, initialLocale }: I18nProviderProps) {
 	const [locale, setLocale] = useState<SupportedLocale>(initialLocale);
 
-	// This effect runs whenever the server-provided locale changes.
 	useEffect(() => {
-		// The `initialLocale` from the server is the source of truth for this page load.
-		// Our job on the client is to synchronize our persistent storage (localStorage)
-		// and our React state to match this server-provided truth.
-
-		// 1. Persist the server-determined locale to localStorage using the imported function.
 		setLocaleInStorage(initialLocale);
-
-		// 2. Ensure the React state also matches this server-determined locale.
 		if (locale !== initialLocale) {
 			setLocale(initialLocale);
 		}
 	}, [initialLocale, locale]);
 
-	/**
-	 * This function should be called by a UI element (e.g., a language switcher)
-	 * to trigger a language change.
-	 */
+	// Pre-load common namespaces on initial client mount.
+	useEffect(() => {
+		loadClientNamespace("footer");
+	}, []);
+
 	const handleSetLocale = (newLocale: SupportedLocale) => {
-		// To correctly change the language for the entire application, we reload
-		// the page with the `?lang` parameter. The middleware handles the rest.
 		const currentUrl = new URL(window.location.href);
 		currentUrl.searchParams.set("lang", newLocale);
 		window.location.href = currentUrl.href;
@@ -148,7 +128,7 @@ export function I18nProvider({ children, initialLocale }: I18nProviderProps) {
 }
 
 /**
- * Hook to access the i18n context (locale and setLocale function).
+ * Hook to access the i18n context.
  */
 export function useI18n(): I18nContextType {
 	const context = useContext(I18nContext);
@@ -166,16 +146,14 @@ export function useTranslation() {
 	const localeKey = getLocaleKey(locale);
 	const [, forceUpdate] = useState({});
 
-	// Function to force component re-render
-	const triggerUpdate = () => forceUpdate({});
+	// Create a stable callback function for re-rendering.
+	const triggerUpdate = useCallback(() => forceUpdate({}), []);
 
 	const t = async (key: string): Promise<string> => {
 		try {
 			const parts = key.split(".");
-			if (parts.length < 2) {
-				console.warn(`Invalid translation key format: "${key}"`);
-				return key;
-			}
+			if (parts.length < 2) return key;
+
 			const namespace = parts[0];
 			const valuePath = parts.slice(1);
 			const translations = await loadClientNamespace(namespace);
@@ -205,31 +183,41 @@ export function useTranslation() {
 			const valuePath = parts.slice(1);
 			const translations = clientTranslationCache.get(namespace);
 
-			if (!translations) {
-				// Register for callback when namespace loads
-				const callbacks = loadingCallbacks.get(namespace) || [];
-				if (!callbacks.includes(triggerUpdate)) {
-					callbacks.push(triggerUpdate);
-					loadingCallbacks.set(namespace, callbacks);
-				}
-
-				// Try to load asynchronously
-				if (!namespaceLoadingState.get(namespace)) {
-					loadClientNamespace(namespace);
-				}
-
-				return key;
+			// If translations are already cached, return the value immediately.
+			if (translations) {
+				const translationValue = getNestedValue(translations, valuePath);
+				if (!translationValue || typeof translationValue !== "object")
+					return key;
+				return (
+					translationValue[localeKey] ||
+					translationValue.en_US ||
+					translationValue.raw ||
+					key
+				);
 			}
 
-			const translationValue = getNestedValue(translations, valuePath);
-			if (!translationValue || typeof translationValue !== "object") return key;
+			// --- SSR SAFETY GUARD ---
+			// If we are on the server, the cache will be empty.
+			// Return the key directly to avoid trying to fetch.
+			if (typeof window === "undefined") {
+				return key;
+			}
+			// --- END GUARD ---
 
-			return (
-				translationValue[localeKey] ||
-				translationValue.en_US ||
-				translationValue.raw ||
-				key
-			);
+			// Subscribe this component to re-render when the namespace is loaded.
+			const callbacks = loadingCallbacks.get(namespace) || [];
+			if (!callbacks.includes(triggerUpdate)) {
+				callbacks.push(triggerUpdate);
+				loadingCallbacks.set(namespace, callbacks);
+			}
+
+			// Trigger the namespace load if it's not already in progress.
+			if (!namespaceLoadingState.get(namespace)) {
+				loadClientNamespace(namespace);
+			}
+
+			// Return the key for the initial render to prevent UI flickering.
+			return key;
 		} catch (error) {
 			return key;
 		}

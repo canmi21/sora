@@ -2,7 +2,7 @@
 
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { SUPPORTED_LOCALES } from "~/providers/i18n";
+import { SUPPORTED_LOCALES, SupportedLocale } from "~/providers/i18n";
 
 /**
  * The i18n middleware.
@@ -15,7 +15,7 @@ export function i18nMiddleware(request: NextRequest): NextResponse | null {
 	const lang = nextUrl.searchParams.get("lang");
 
 	// Check if a 'lang' parameter exists and is a supported locale.
-	if (lang && SUPPORTED_LOCALES.includes(lang as any)) {
+	if (lang && SUPPORTED_LOCALES.includes(lang as SupportedLocale)) {
 		// Create a response to set the cookie. We will redirect, so this can be a simple response.
 		// Note: We don't need NextResponse.next() here; we can use the main response object for redirection.
 		const redirectUrl = new URL(request.nextUrl);

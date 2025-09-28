@@ -13,7 +13,7 @@ export function Copyright({ currentYear }: { currentYear: number }) {
 	const values = useValueContext();
 
 	// Get dynamic values from the context with sensible fallbacks.
-	const inceptionYear = values.get("site.inception") || 2021;
+	const inceptionYear = (values.get("site.inception") as number) || 2021;
 	const ownerName = (values.get("owner.name") as string) || "Canmi";
 
 	return (

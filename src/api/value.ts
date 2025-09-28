@@ -11,7 +11,7 @@ import type { ClientApiResponse, ClientApiErrorResponse } from "./request";
  */
 export interface GetValueResponse {
 	key: string;
-	value: any; // Can be a string, number, boolean, object, or array.
+	value: unknown; // Can be a string, number, boolean, object, or array.
 	type: "json" | "string" | "base64";
 }
 
@@ -57,7 +57,7 @@ export async function getValue(
 		try {
 			// Decode the base64 string. The atob() function is globally available
 			// in modern browsers and Node.js/Next.js environments.
-			const decodedValue = atob(response.data.value);
+			const decodedValue = atob(response.data.value as string);
 
 			// Return a new response object with the decoded value.
 			// We modify the 'type' to 'string' to reflect that the value is no longer encoded.
@@ -94,7 +94,7 @@ export async function getValue(
  */
 export function createValue(
 	key: string,
-	value: any
+	value: unknown
 ): Promise<ClientApiResponse<ModifyValueResponse>> {
 	const path = keyToPath(key);
 	return post<ModifyValueResponse>(`/v1/config/${path}`, value);
@@ -110,7 +110,7 @@ export function createValue(
  */
 export function updateValue(
 	key: string,
-	value: any
+	value: unknown
 ): Promise<ClientApiResponse<ModifyValueResponse>> {
 	const path = keyToPath(key);
 	return put<ModifyValueResponse>(`/v1/config/${path}`, value);

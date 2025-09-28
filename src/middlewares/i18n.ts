@@ -9,17 +9,22 @@ import { SUPPORTED_LOCALES, SupportedLocale } from "~/providers/i18n";
  * to the canonical locales used in the application.
  */
 const localeMapping: Record<string, SupportedLocale> = {
-	raw: "und",
 	en: "en-US", // Default English to en-US
+	zh: "zh-CN", // Default Chinese to zh-CN
+	es: "es-ES",
+	fr: "fr-FR",
+	ja: "ja-JP",
+	raw: "und",
+	default: "und",
+	original: "und",
 	"en-us": "en-US",
 	"en-gb": "en-GB",
-	zh: "zh-CN", // Default Chinese to zh-CN
 	"zh-cn": "zh-CN",
 	"zh-hk": "zh-HK",
 	"zh-tw": "zh-HK", // Map Traditional Chinese (Taiwan) to Hong Kong locale
-	ja: "ja-JP",
-	fr: "fr-FR",
-	es: "es-ES",
+	"es-es": "es-ES",
+	"fr-fr": "fr-FR",
+	"ja-jp": "ja-JP",
 };
 
 /**

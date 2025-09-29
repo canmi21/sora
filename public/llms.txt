@@ -1,0 +1,42 @@
+# {{site.title}}
+
+> {{site.description}}
+
+This is an open-source [Shadow](https://github.com/canmi21/shadow) instance, using the [Sora](https://github.com/canmi21/sora) front-end.
+It is a personal space including blogs, photos, timelines, notes, and everything about the site owner.
+
+## About the Owner
+
+name: "{{owner.name}}"
+bio: "{{owner.bio}}"
+quote: "{{owner.quote}}"
+info: {{url}}/about
+site: {{url}}/about-site
+
+## Sitemap & RSS
+
+sitemap: {{url}}/sitemap.xml
+feed: {{url}}/feed.xml
+
+## Blog
+
+posts: {{url}}/posts/
+topics: {{url}}/topics/
+notes: {{url}}/notes/
+
+## Life
+
+moments: {{url}}/moments/
+photo: {{url}}/photo/
+
+## Activity
+
+timeline: {{url}}/timeline/
+sights: {{url}}/sights/
+mind: {{url}}/mind/
+
+## Project & TODO
+
+repos: {{url}}/repos/
+plans: {{url}}/plans/
+roadmap: {{url}}/roadmap/

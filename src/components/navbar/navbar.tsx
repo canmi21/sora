@@ -13,7 +13,9 @@ import { NavbarDynamicContent } from "./dynamic";
 export default function Navbar() {
 	return (
 		// Use ValueProvider to fetch the required keys for the navbar on the server.
-		<ValueProvider keysToFetch={["site.navbar.title", "site.description"]}>
+		<ValueProvider
+			keysToFetch={["site.navbar.title", "site.navbar.description"]}
+		>
 			<nav className="navbar w-full h-15 flex items-center justify-between px-12">
 				{/* The hardcoded title has been replaced with our new dynamic component. */}
 				<NavbarDynamicContent />

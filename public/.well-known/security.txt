@@ -1,0 +1,3 @@
+Contact: mailto:support@canmi.icu
+Contact: https://github.com/canmi21/shadow/security
+Expires: 2026-12-31T23:59:00.000Z

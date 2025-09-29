@@ -18,7 +18,7 @@ export function Copyright({ currentYear }: { currentYear: number }) {
 
 	return (
 		<span>
-			© {inceptionYear}–{currentYear}{" "}
+			© {inceptionYear}-{currentYear}{" "}
 			<Link
 				href="/about"
 				className="hover:text-[var(--footer-subtext-color)] transition-colors"

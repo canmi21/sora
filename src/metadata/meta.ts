@@ -19,12 +19,12 @@ const STATIC_METADATA = {
 export async function generateSiteMetadata(): Promise<Metadata> {
 	const [title, description] = await Promise.all([
 		getRawValue<string>("site.title", "此站点迷路了！"),
-		getRawValue<string>("site.description", "致虚无，心を守。"),
+		getRawValue<string>("site.description", "服务器宕机咯"),
 	]);
 
 	return {
 		...STATIC_METADATA,
-		title: `${title} - ${description}`,
+		title: `${title}`,
 		description: description,
 	};
 }

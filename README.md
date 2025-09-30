@@ -10,9 +10,9 @@
 
 A personal space crafted with **Next.js 15**, **React + TypeScript**, and **TailwindCSS V4**.
 
-* Full **SSR** rendering
-* Built-in **i18n** multilingual support
-* More than just a **blog** — a hybrid of journal, portfolio, and digital garden
+- Full **SSR** rendering
+- Built-in **i18n** multilingual support
+- More than just a **blog** — a hybrid of journal, portfolio, and digital garden
 
 ---
 
@@ -20,9 +20,9 @@ A personal space crafted with **Next.js 15**, **React + TypeScript**, and **Tail
 
 A silent yet steady companion written in **Rust** with **Axum**.
 
-* Stores data in lightweight **SQLite**
-* Minimal footprint, running under **5MB memory**
-* A calm backend that powers without intruding
+- Stores data in lightweight **SQLite**
+- Minimal footprint, running under **5MB memory**
+- A calm backend that powers without intruding
 
 ---
 

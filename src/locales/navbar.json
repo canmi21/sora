@@ -1,0 +1,54 @@
+{
+	"link": {
+		"timeline": {
+			"raw": "Timeline",
+			"en_US": "Timeline",
+			"en_GB": "Timeline",
+			"zh_CN": "忆",
+			"zh_HK": "憶",
+			"es_ES": "Crono",
+			"fr_FR": "Temps",
+			"ja_JP": "歴"
+		},
+		"collection": {
+			"raw": "Collection",
+			"en_US": "Collection",
+			"en_GB": "Collection",
+			"zh_CN": "文",
+			"zh_HK": "文",
+			"es_ES": "Colec",
+			"fr_FR": "Coll",
+			"ja_JP": "集"
+		},
+		"notes": {
+			"raw": "Notes",
+			"en_US": "Notes",
+			"en_GB": "Notes",
+			"zh_CN": "记",
+			"zh_HK": "記",
+			"es_ES": "Nota",
+			"fr_FR": "Note",
+			"ja_JP": "記"
+		},
+		"todo": {
+			"raw": "Todo",
+			"en_US": "Todo",
+			"en_GB": "Todo",
+			"zh_CN": "计",
+			"zh_HK": "計",
+			"es_ES": "Tarea",
+			"fr_FR": "Àfaire",
+			"ja_JP": "計"
+		},
+		"more": {
+			"raw": "More",
+			"en_US": "More",
+			"en_GB": "More",
+			"zh_CN": "余",
+			"zh_HK": "餘",
+			"es_ES": "Más",
+			"fr_FR": "Plus",
+			"ja_JP": "余"
+		}
+	}
+}

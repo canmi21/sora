@@ -5,17 +5,31 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-import { History, Album, Scroll, CircleDot, LoaderCircle } from "lucide-react";
 import { motion } from "framer-motion";
+import type { ComponentType } from "react";
+import { History, Album, Scroll, CircleDot, LoaderCircle } from "lucide-react";
 
-const navItems = [
-	{ href: "/timeline", Icon: History, text: "Timeline" },
-	{ href: "/collections", Icon: Album, text: "Collection" },
-	{ href: "/notes", Icon: Scroll, text: "Notes" },
-	{ href: "/plans", Icon: CircleDot, text: "Todo" },
-];
+// Define the shape of the props received from the server.
+interface NavItem {
+	href: string;
+	icon: string; // The icon is now a string identifier.
+	text: string;
+}
 
-export function NavLinks() {
+interface NavLinksProps {
+	navItems: NavItem[];
+}
+
+// Map the string identifiers to the actual imported icon components.
+const iconMap: Record<string, ComponentType<{ className?: string }>> = {
+	history: History,
+	album: Album,
+	scroll: Scroll,
+	"circle-dot": CircleDot,
+	"loader-circle": LoaderCircle,
+};
+
+export function NavLinks({ navItems }: NavLinksProps) {
 	const pathname = usePathname();
 	const [isHovering, setIsHovering] = useState(false);
 
@@ -25,8 +39,11 @@ export function NavLinks() {
 			onMouseEnter={() => setIsHovering(true)}
 			onMouseLeave={() => setIsHovering(false)}
 		>
-			{navItems.map(({ href, Icon, text }) => {
+			{navItems.map(({ href, icon, text }) => {
 				const isActive = pathname.startsWith(href);
+				const IconComponent = iconMap[icon]; // Look up the component from the map.
+
+				if (!IconComponent) return null; // Failsafe for invalid icon names.
 
 				return (
 					<Link
@@ -35,7 +52,7 @@ export function NavLinks() {
 						className="group relative flex flex-col items-center py-2"
 					>
 						<div className="flex items-center space-x-2 text-[var(--color-text)] group-hover:text-[var(--color-subtext)] transition-colors">
-							<Icon className="h-4 w-4" />
+							<IconComponent className="h-4 w-4" />
 							<span>{text}</span>
 						</div>
 
@@ -46,8 +63,7 @@ export function NavLinks() {
 									absolute bottom-0
 									${
 										isHovering
-											?
-												"w-full h-0.5 rounded-none bg-[var(--navbar-indicator-color)]"
+											? "w-full h-0.5 rounded-none bg-[var(--navbar-indicator-color)]"
 											: "w-1.5 h-1.5 rounded-full bg-[var(--color-subtext)]"
 									}
 								`}
@@ -61,14 +77,6 @@ export function NavLinks() {
 					</Link>
 				);
 			})}
-
-			<a
-				href="#"
-				className="flex items-center space-x-2 text-[var(--color-text)] hover:text-[var(--color-subtext)] transition-colors"
-			>
-				<LoaderCircle className="h-4 w-4" />
-				<span>More</span>
-			</a>
 		</div>
 	);
 }

@@ -3,6 +3,7 @@
 .navbar {
 	--navbar-background: color-mix(in srgb, var(--color-bg-alt) 10%, transparent);
 	--navbar-border-color: color-mix(in srgb, var(--color-bg-alt) 90%, black);
+	--navbar-indicator-color: color-mix(in srgb, var(--theme-color) 60%, white);
 
 	position: fixed;
 	top: 0;
@@ -21,4 +22,5 @@
 
 .dark .navbar {
 	--navbar-border-color: color-mix(in srgb, var(--color-bg-alt) 85%, white);
+	--navbar-indicator-color: color-mix(in srgb, var(--theme-color) 60%, black);
 }

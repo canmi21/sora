@@ -12,7 +12,7 @@ export function NavbarDynamicContent() {
 	const values = useValueContext();
 
 	// Get the dynamic values from the context, providing the specified fallbacks.
-	const title = (values.get("site.navbar.title") as string) || "觉授の貓窝";
+	const title = (values.get("site.navbar.title") as string) || "貓窝";
 	const description =
 		(values.get("site.navbar.description") as string) || "服务器在睡大觉";
 

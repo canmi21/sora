@@ -113,6 +113,7 @@ function makeIndicator(hex: string, opts?: { dark?: boolean }): string {
 	let newS = s;
 	let newL = l;
 	if (dark) {
+		// Dark mode: brighten the color for visibility on dark background
 		if (l < 30) {
 			newL = Math.min(92, l + 36);
 			newS = Math.min(100, Math.round(s * 1.22));
@@ -124,14 +125,15 @@ function makeIndicator(hex: string, opts?: { dark?: boolean }): string {
 			newS = Math.min(100, Math.round(s * 1.03));
 		}
 	} else {
-		if (l < 30) {
-			newL = Math.min(88, l + 30);
+		// Light mode: darken the color for visibility on light background
+		if (l > 70) {
+			newL = Math.max(8, l - 30);
 			newS = Math.min(100, Math.round(s * 1.35));
-		} else if (l < 60) {
-			newL = Math.min(94, l + 16);
+		} else if (l > 40) {
+			newL = Math.max(6, l - 16);
 			newS = Math.min(100, Math.round(s * 1.12));
 		} else {
-			newL = Math.min(96, l + 8);
+			newL = Math.max(4, l - 8);
 			newS = Math.min(100, Math.round(s * 1.03));
 		}
 	}
@@ -154,6 +156,7 @@ export function ColorProvider({
 	const colors = useMemo(() => {
 		const lightHex = LIGHT_PALETTES[theme_color] ?? LIGHT_PALETTES["sky"];
 		const darkHex = DARK_PALETTES[theme_color] ?? DARK_PALETTES["sky"];
+
 		const lightIndicator = makeIndicator(lightHex, { dark: false });
 		const darkIndicator = makeIndicator(darkHex, { dark: true });
 

@@ -2,8 +2,6 @@
 	"button": {
 		"sitemap": {
 			"raw": "Sitemap",
-			"en_US": "Sitemap",
-			"en_GB": "Sitemap",
 			"zh_CN": "站点地图",
 			"zh_HK": "網站地圖",
 			"es_ES": "Mapa",
@@ -12,8 +10,6 @@
 		},
 		"subscribe": {
 			"raw": "Subscribe",
-			"en_US": "Subscribe",
-			"en_GB": "Subscribe",
 			"zh_CN": "订阅",
 			"zh_HK": "訂閱",
 			"es_ES": "Suscribir",
@@ -24,8 +20,6 @@
 	"link": {
 		"about": {
 			"raw": "About",
-			"en_US": "About",
-			"en_GB": "About",
 			"zh_CN": "关于",
 			"zh_HK": "關於",
 			"es_ES": "Info",
@@ -34,8 +28,6 @@
 		},
 		"me": {
 			"raw": "Me",
-			"en_US": "Me",
-			"en_GB": "Me",
 			"zh_CN": "关于我",
 			"zh_HK": "關於我",
 			"es_ES": "Yo",
@@ -44,8 +36,6 @@
 		},
 		"site": {
 			"raw": "The Site",
-			"en_US": "The Site",
-			"en_GB": "The Site",
 			"zh_CN": "关于本站",
 			"zh_HK": "本站",
 			"es_ES": "Sitio",
@@ -54,8 +44,6 @@
 		},
 		"project": {
 			"raw": "The Project",
-			"en_US": "The Project",
-			"en_GB": "The Project",
 			"zh_CN": "关于此项目",
 			"zh_HK": "項目",
 			"es_ES": "Proyecto",
@@ -64,8 +52,6 @@
 		},
 		"more": {
 			"raw": "More",
-			"en_US": "More",
-			"en_GB": "More",
 			"zh_CN": "更多",
 			"zh_HK": "更多",
 			"es_ES": "Más",
@@ -74,18 +60,13 @@
 		},
 		"repos": {
 			"raw": "Repos",
-			"en_US": "Repos",
-			"en_GB": "Repos",
 			"zh_CN": "仓库",
 			"zh_HK": "倉庫",
-			"es_ES": "Repos",
 			"fr_FR": "Dépôt",
 			"ja_JP": "リポジ"
 		},
 		"opensource": {
 			"raw": "OpenSource",
-			"en_US": "OpenSource",
-			"en_GB": "OpenSource",
 			"zh_CN": "开源",
 			"zh_HK": "開源",
 			"es_ES": "Abierto",
@@ -94,8 +75,6 @@
 		},
 		"sponsor": {
 			"raw": "Sponsor",
-			"en_US": "Sponsor",
-			"en_GB": "Sponsor",
 			"zh_CN": "赞助",
 			"zh_HK": "贊助",
 			"es_ES": "Patro",
@@ -104,12 +83,8 @@
 		},
 		"contact": {
 			"raw": "Contact",
-			"en_US": "Contact",
-			"en_GB": "Contact",
 			"zh_CN": "联系",
 			"zh_HK": "聯繫",
-			"es_ES": "Contact",
-			"fr_FR": "Contact",
 			"ja_JP": "連絡"
 		},
 		"github": {
@@ -117,18 +92,12 @@
 		},
 		"email": {
 			"raw": "Email",
-			"en_US": "Email",
-			"en_GB": "Email",
 			"zh_CN": "邮箱",
 			"zh_HK": "郵箱",
-			"es_ES": "Email",
-			"fr_FR": "Email",
 			"ja_JP": "メール"
 		},
 		"status": {
 			"raw": "Status",
-			"en_US": "Status",
-			"en_GB": "Status",
 			"zh_CN": "监控",
 			"zh_HK": "监控",
 			"es_ES": "Estado",

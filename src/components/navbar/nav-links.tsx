@@ -12,7 +12,7 @@ import { History, Album, Scroll, CircleDot, LoaderCircle } from "lucide-react";
 // Define the shape of the props received from the server.
 interface NavItem {
 	href: string;
-	icon: string; // The icon is now a string identifier.
+	icon: string;
 	text: string;
 }
 
@@ -41,9 +41,9 @@ export function NavLinks({ navItems }: NavLinksProps) {
 		>
 			{navItems.map(({ href, icon, text }) => {
 				const isActive = pathname.startsWith(href);
-				const IconComponent = iconMap[icon]; // Look up the component from the map.
+				const IconComponent = iconMap[icon];
 
-				if (!IconComponent) return null; // Failsafe for invalid icon names.
+				if (!IconComponent) return null;
 
 				return (
 					<Link
@@ -51,7 +51,13 @@ export function NavLinks({ navItems }: NavLinksProps) {
 						href={href}
 						className="group relative flex flex-col items-center py-2"
 					>
-						<div className="flex items-center space-x-2 text-[var(--color-text)] group-hover:text-[var(--color-subtext)] transition-colors">
+						<div
+							className={`flex items-center space-x-2 group-hover:text-[var(--color-subtext)] transition-colors ${
+								isActive
+									? "text-[var(--theme-color-indicator)]"
+									: "text-[var(--color-text)]"
+							}`}
+						>
 							<IconComponent className="h-4 w-4" />
 							<span>{text}</span>
 						</div>

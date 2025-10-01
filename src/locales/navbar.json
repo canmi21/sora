@@ -2,8 +2,6 @@
 	"link": {
 		"timeline": {
 			"raw": "Timeline",
-			"en_US": "Timeline",
-			"en_GB": "Timeline",
 			"zh_CN": "忆",
 			"zh_HK": "憶",
 			"es_ES": "Crono",
@@ -12,8 +10,6 @@
 		},
 		"collection": {
 			"raw": "Collection",
-			"en_US": "Collection",
-			"en_GB": "Collection",
 			"zh_CN": "文",
 			"zh_HK": "文",
 			"es_ES": "Colec",
@@ -22,8 +18,6 @@
 		},
 		"notes": {
 			"raw": "Notes",
-			"en_US": "Notes",
-			"en_GB": "Notes",
 			"zh_CN": "记",
 			"zh_HK": "記",
 			"es_ES": "Nota",
@@ -32,8 +26,6 @@
 		},
 		"todo": {
 			"raw": "Todo",
-			"en_US": "Todo",
-			"en_GB": "Todo",
 			"zh_CN": "计",
 			"zh_HK": "計",
 			"es_ES": "Tarea",
@@ -42,8 +34,6 @@
 		},
 		"more": {
 			"raw": "More",
-			"en_US": "More",
-			"en_GB": "More",
 			"zh_CN": "余",
 			"zh_HK": "餘",
 			"es_ES": "Más",

@@ -36,9 +36,8 @@ export default async function Navbar() {
 		<ValueProvider
 			keysToFetch={["site.navbar.title", "site.navbar.description"]}
 		>
-			<nav className="navbar w-full h-15 flex items-center justify-between px-12">
+			<nav className="navbar color w-full h-15 flex items-center justify-between px-12">
 				<NavbarDynamicContent />
-				{/* Pass the prepared plain objects to the client component. */}
 				<NavLinks navItems={navItems} />
 			</nav>
 		</ValueProvider>

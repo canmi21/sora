@@ -2,6 +2,7 @@
 
 "use client";
 
+import Link from "next/link";
 import { useValueContext } from "~/contexts/value-client";
 
 /**
@@ -17,11 +18,14 @@ export function NavbarDynamicContent() {
 		(values.get("site.navbar.description") as string) || "服务器在睡大觉";
 
 	return (
-		<div className="flex flex-col items-start">
+		<Link
+			href="/"
+			className="flex flex-col items-start hover:opacity-80 transition-opacity"
+		>
 			<h1 className="text-lg font-bold text-[var(--color-text)]">{title}</h1>
 			<p className="text-xs text-[var(--color-subtext)] mt-0.5">
 				{description}
 			</p>
-		</div>
+		</Link>
 	);
 }

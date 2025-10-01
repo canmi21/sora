@@ -22,7 +22,7 @@ const DARK_PALETTES: Record<string, string> = {
 	mint: "#2e4d46",
 	lavender: "#3f4469",
 	blush: "#6a3d48",
-	lemon: "#6b5e20",
+	lemon: "#f7b733", // mix(amber + teal)
 };
 
 interface ColorContextType {

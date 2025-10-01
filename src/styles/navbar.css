@@ -21,6 +21,6 @@
 }
 
 .dark .navbar {
-	--navbar-border-color: color-mix(in srgb, var(--color-bg-alt) 85%, black);
+	--navbar-border-color: color-mix(in srgb, var(--color-bg-alt) 95%, white);
 	--navbar-indicator-color: color-mix(in srgb, var(--theme-color) 90%, white);
 }
